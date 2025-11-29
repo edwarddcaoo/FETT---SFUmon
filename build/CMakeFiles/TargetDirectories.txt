@@ -1,0 +1,8 @@
+/home/edward/ensc351/work/sfumon/build/CMakeFiles/edit_cache.dir
+/home/edward/ensc351/work/sfumon/build/CMakeFiles/rebuild_cache.dir
+/home/edward/ensc351/work/sfumon/build/hal/CMakeFiles/hal.dir
+/home/edward/ensc351/work/sfumon/build/hal/CMakeFiles/edit_cache.dir
+/home/edward/ensc351/work/sfumon/build/hal/CMakeFiles/rebuild_cache.dir
+/home/edward/ensc351/work/sfumon/build/app/CMakeFiles/sfumon.dir
+/home/edward/ensc351/work/sfumon/build/app/CMakeFiles/edit_cache.dir
+/home/edward/ensc351/work/sfumon/build/app/CMakeFiles/rebuild_cache.dir
