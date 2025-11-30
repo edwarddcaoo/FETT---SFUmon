@@ -13,7 +13,6 @@ set(APP_SOURCES
     src/npc.c
     src/player.c
     src/rendering.c
-
 )
 
 # Create executable
@@ -22,21 +21,29 @@ add_executable(sfumon ${APP_SOURCES})
 # Make headers available to app source files
 target_include_directories(sfumon PRIVATE include)
 
-# Link HAL library (which includes SDL2)
-target_link_libraries(sfumon PRIVATE hal)
+# Link HAL library (which includes SDL2, SDL2_image, SDL2_mixer, gpiod)
+target_link_libraries(sfumon PRIVATE hal pthread)
 
-# Copy executable to final location
-# For BeagleBoard deployment:
-if(TARGET_BEAGLE)
+# Copy executable and assets to final location (only for cross-compilation)
+if(CMAKE_CROSSCOMPILING)
+    # Copy executable
     add_custom_command(TARGET sfumon POST_BUILD 
         COMMAND "${CMAKE_COMMAND}" -E copy 
             "$<TARGET_FILE:sfumon>"
-            "~/ensc351/work/sfumon/build" 
+            "$ENV{HOME}/ensc351/public/sfumon/sfumon" 
         COMMENT "Copying ARM executable to public NFS directory")
+    
+    # Copy assets folder (PNGs, maps, music)
+    add_custom_command(TARGET sfumon POST_BUILD 
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets" 
+            "$ENV{HOME}/ensc351/public/sfumon/assets"
+        COMMENT "Copying assets (images, maps, music) to public NFS directory")
+else()
+    # For native development, copy assets to build directory
+    add_custom_command(TARGET sfumon POST_BUILD 
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets" 
+            "$<TARGET_FILE_DIR:sfumon>/assets"
+        COMMENT "Copying assets to build directory for local testing")
 endif()
-
-# For development, optionally copy assets
-# add_custom_command(TARGET sfumon POST_BUILD 
-#     COMMAND "${CMAKE_COMMAND}" -E copy_directory
-#     "${CMAKE_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:sfumon>/assets"
-#     COMMENT "Copying assets to build directory")

@@ -1,13 +1,15 @@
 # CMakeList.txt for HAL (Hardware Abstraction Layer)
 
-# Find SDL2_image and SDL2_mixer
-find_package(SDL2_image REQUIRED)
-
-# Find SDL_mixer manually if needed
-find_library(SDL2_MIXER_LIB SDL2_mixer REQUIRED)
-
 # Collect all HAL source files
-file(GLOB HAL_SOURCES "src/*.c")
+# Explicitly list all HAL source files
+set(HAL_SOURCES
+    src/audio.c
+    src/button.c
+    src/display.c
+    src/joystick.c
+    src/sprite.c
+    src/storage.c
+)
 
 # Create static library
 add_library(hal STATIC ${HAL_SOURCES})
@@ -19,4 +21,23 @@ target_include_directories(hal PUBLIC include)
 target_include_directories(hal PRIVATE include/hal)
 
 # Link SDL2, SDL2_image, and SDL2_mixer to HAL
-target_link_libraries(hal PUBLIC SDL2::SDL2 SDL2_image ${SDL2_MIXER_LIB})
+target_link_libraries(hal PUBLIC 
+    SDL2::SDL2 
+    SDL2_image::SDL2_image
+    ${SDL2_MIXER_LIBRARIES}
+)
+
+# Tell the linker where to search for libraries
+if(CMAKE_CROSSCOMPILING)
+    target_link_directories(hal PUBLIC ${BEAGLE_SYSROOT}/lib/pulseaudio)
+endif()
+
+# Add gpiod support if cross-compiling
+if(CMAKE_CROSSCOMPILING)
+    target_include_directories(hal PUBLIC ${GPIOD_INCLUDE_DIRS})
+    target_link_libraries(hal PUBLIC ${GPIOD_LIBRARIES})
+    message(STATUS "HAL: Including gpiod support for hardware GPIO")
+endif()
+
+# Add math library (needed for some operations)
+target_link_libraries(hal PUBLIC m)
