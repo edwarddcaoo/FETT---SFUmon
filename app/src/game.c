@@ -7,31 +7,11 @@
 #include "rendering.h"
 #include "input.h"
 #include "sound_effects.h"
+#include "music.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-
-// Helper function to check if player is near Professor Matthew
-static bool is_near_professor_matthew(Room *room, int player_x, int player_y)
-{
-    for (int i = 0; i < room->npc_count; i++)
-    {
-        if (strcmp(room->npcs[i].name, "Professor Matthew") == 0 && !room->npcs[i].caught)
-        {
-            int dx = abs(player_x - room->npcs[i].x);
-            int dy = abs(player_y - room->npcs[i].y);
-            int distance = dx + dy; // Manhattan distance
-
-            // Within 3 tiles
-            if (distance <= 3)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
 
 void game_run(void)
 {
@@ -48,7 +28,7 @@ void game_run(void)
         fprintf(stderr, "Warning: Failed to initialize audio\n");
     }
 
-    // Preload sound effects
+    // Load sound effects
     printf("Loading sound effects...\n");
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
     audio_load_sound("assets/sounds/door.wav", SOUND_DOOR);
@@ -61,18 +41,13 @@ void game_run(void)
     player_init(&player, 10, 7, renderer);
 
     int total_caught = 0;
+    bool music_has_started = false; // Track if music has started
 
-    // Music state tracking
-    char current_music_path[128] = "";
-    bool was_near_professor = false;
-    bool music_started = false; // Track if initial music has started
-
-    // Preload initial room music (don't play yet)
-    printf("Loading music...\n");
-    Room *current_room = map_get_current_room(&game_map);
-    strcpy(current_music_path, current_room->music_path);
-    audio_load_music(current_music_path);
-    printf("Music loaded, will start shortly...\n");
+    // Initialize music (but don't start playing yet)
+    if (!music_init())
+    {
+        fprintf(stderr, "Warning: Music initialization failed\n");
+    }
 
     // Game state
     Uint32 last_move_time = 0;
@@ -85,13 +60,11 @@ void game_run(void)
     {
         Uint32 current_time = SDL_GetTicks();
 
-        // Start music after a short delay (500ms) to let everything initialize
-        if (!music_started && current_time > 500)
+        // Start music after 300ms delay to let game render first
+        if (!music_has_started && current_time > 10000)
         {
-            audio_play_music();
-            audio_set_music_volume(64);
-            music_started = true;
-            printf("🎵 Music started!\n");
+            music_start_delayed();
+            music_has_started = true;
         }
 
         // Handle events
@@ -108,33 +81,12 @@ void game_run(void)
         }
 
         // Get current room
-        current_room = map_get_current_room(&game_map);
+        Room *current_room = map_get_current_room(&game_map);
 
-        // Check if near Professor Matthew for encounter music
-        bool near_professor = is_near_professor_matthew(current_room,
-                                                        player_get_grid_x(&player),
-                                                        player_get_grid_y(&player));
-
-        // Handle music transitions - only when state changes
-        if (near_professor && !was_near_professor)
+        // Update music based on player position (only after music has started)
+        if (music_has_started)
         {
-            // Just entered proximity - switch to encounter music
-            audio_stop_music();
-            audio_load_music("assets/music/matthew.ogg");
-            audio_play_music();
-            audio_set_music_volume(64);
-            was_near_professor = true;
-            printf("🎵 Encounter music started!\n");
-        }
-        else if (!near_professor && was_near_professor)
-        {
-            // Just left proximity - switch back to room music
-            audio_stop_music();
-            audio_load_music(current_music_path);
-            audio_play_music();
-            audio_set_music_volume(64);
-            was_near_professor = false;
-            printf("🎵 Room music resumed\n");
+            music_update(current_room, player_get_grid_x(&player), player_get_grid_y(&player));
         }
 
         // Handle input
@@ -143,15 +95,15 @@ void game_run(void)
         // Check for catch action
         if (input_is_catch_pressed(&space_was_pressed))
         {
-            printf("Catch button pressed! Checking for professors...\n");
-            bool caught = npc_try_catch(current_room->npcs, current_room->npc_count,
-                                        player_get_grid_x(&player),
-                                        player_get_grid_y(&player), &total_caught);
+            printf("Space pressed! Checking for professors...\n");
 
-            if (caught)
-            {
-                audio_play_sound(SOUND_CATCH);
-            }
+            // Play sound immediately
+            audio_play_sound(SOUND_CATCH);
+
+            // Then check if actually caught
+            npc_try_catch(current_room->npcs, current_room->npc_count,
+                          player_get_grid_x(&player),
+                          player_get_grid_y(&player), &total_caught);
         }
 
         // Get movement input and update player
@@ -187,12 +139,7 @@ void game_run(void)
 
                 // Change room music
                 current_room = map_get_current_room(&game_map);
-                strcpy(current_music_path, current_room->music_path);
-                audio_stop_music();
-                audio_load_music(current_music_path);
-                audio_play_music();
-                audio_set_music_volume(64);
-                was_near_professor = false; // Reset when changing rooms
+                music_change_room(current_room->music_path);
             }
         }
 
@@ -212,6 +159,7 @@ void game_run(void)
 
     // Cleanup
     input_cleanup();
+    music_cleanup();
     audio_cleanup();
     map_cleanup(&game_map);
     player_cleanup(&player);

@@ -9,7 +9,7 @@ set(APP_SOURCES
     src/input.c
     src/main.c
     src/map.c
-    #src/music.c
+    src/music.c
     src/npc.c
     src/player.c
     src/rendering.c
