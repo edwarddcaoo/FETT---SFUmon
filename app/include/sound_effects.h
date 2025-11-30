@@ -4,9 +4,6 @@
 // Sound effect IDs
 typedef enum {
     SOUND_CATCH = 0,
-    SOUND_DOOR = 1,
-    SOUND_FOOTSTEP = 2,
-    SOUND_MENU = 3,
 
     SOUND_COUNT
 } SoundID;
