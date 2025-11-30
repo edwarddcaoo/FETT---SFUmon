@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "hal/audio.h"
+#include "sound_effects.h"
 
 void npc_init_all(NPC* npcs, int* count, SDL_Renderer* renderer) {
     *count = 3;
@@ -40,6 +42,10 @@ bool npc_try_catch(NPC* npcs, int count, int player_x, int player_y, int* total_
                 npcs[i].caught = true;
                 (*total_caught)++;
                 printf("*** Caught %s! Total: %d/%d ***\n", npcs[i].name, *total_caught, count);
+
+                // Play success sound
+                audio_play_sound(SOUND_CATCH);
+
                 caught_someone = true;
             }
         }

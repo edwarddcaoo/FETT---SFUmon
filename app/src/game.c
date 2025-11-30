@@ -31,8 +31,7 @@ void game_run(void)
     // Load sound effects
     printf("Loading sound effects...\n");
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
-    audio_load_sound("assets/sounds/door.wav", SOUND_DOOR);
-
+    
     // Initialize game systems
     Map game_map;
     map_init(&game_map, renderer);
@@ -96,10 +95,7 @@ void game_run(void)
         if (input_is_catch_pressed(&space_was_pressed))
         {
             printf("Space pressed! Checking for professors...\n");
-
-            // Play sound immediately
-            audio_play_sound(SOUND_CATCH);
-
+            
             // Then check if actually caught
             npc_try_catch(current_room->npcs, current_room->npc_count,
                           player_get_grid_x(&player),
@@ -119,11 +115,7 @@ void game_run(void)
             Door *door = map_check_door_collision(&game_map,
                                                   player_get_grid_x(&player),
                                                   player_get_grid_y(&player));
-            if (door != NULL)
-            {
-                // Play door sound
-                audio_play_sound(SOUND_DOOR);
-
+            if (door != NULL) {
                 int new_x = player.grid_x;
                 int new_y = player.grid_y;
                 map_transition_room(&game_map, door->target_room, &new_x, &new_y, door);
