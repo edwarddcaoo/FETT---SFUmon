@@ -61,7 +61,7 @@ void game_run(void)
         Uint32 current_time = SDL_GetTicks();
 
         // Start music after 300ms delay to let game render first
-        if (!music_has_started && current_time > 10000)
+        if (!music_has_started && current_time > 12000)
         {
             music_start_delayed();
             music_has_started = true;
