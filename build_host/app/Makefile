@@ -370,6 +370,30 @@ src/player.c.s:
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/player.c.s
 .PHONY : src/player.c.s
 
+src/quest.o: src/quest.c.o
+.PHONY : src/quest.o
+
+# target to build an object file
+src/quest.c.o:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/quest.c.o
+.PHONY : src/quest.c.o
+
+src/quest.i: src/quest.c.i
+.PHONY : src/quest.i
+
+# target to preprocess a source file
+src/quest.c.i:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/quest.c.i
+.PHONY : src/quest.c.i
+
+src/quest.s: src/quest.c.s
+.PHONY : src/quest.s
+
+# target to generate assembly for a file
+src/quest.c.s:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/quest.c.s
+.PHONY : src/quest.c.s
+
 src/rendering.o: src/rendering.c.o
 .PHONY : src/rendering.o
 
@@ -433,6 +457,9 @@ help:
 	@echo "... src/player.o"
 	@echo "... src/player.i"
 	@echo "... src/player.s"
+	@echo "... src/quest.o"
+	@echo "... src/quest.i"
+	@echo "... src/quest.s"
 	@echo "... src/rendering.o"
 	@echo "... src/rendering.i"
 	@echo "... src/rendering.s"

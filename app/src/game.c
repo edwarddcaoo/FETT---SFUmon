@@ -10,6 +10,7 @@
 #include "music.h"
 #include "dialogue.h"
 #include "catch.h"
+#include "quest.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
@@ -37,7 +38,7 @@ void game_run(void)
     map_init(&game_map, renderer);
 
     Player player;
-    player_init(&player, 10, 7, renderer);
+    player_init(&player, 20, 11, renderer);
 
     bool music_has_started = false;
 
@@ -48,11 +49,18 @@ void game_run(void)
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
     pet_spawn_initial(&pets, renderer);
 
+    // ------------------------------------------
+    // QUEST MANAGER INITIALIZATION
+    // ------------------------------------------
+    QuestManager quests;
+    quest_manager_init(&quests);
+
     if (!music_init())
         fprintf(stderr, "Warning: Music initialization failed\n");
 
     Uint32 last_move_time = 0;
     bool space_was_pressed = false;
+    bool interact_was_pressed = false;
     bool running = true;
     SDL_Event event;
 
@@ -74,69 +82,11 @@ void game_run(void)
             if (event.type == SDL_QUIT)
                 running = false;
 
-            if (event.type == SDL_KEYDOWN)
-            {
-                SDL_Keycode key = event.key.keysym.sym;
-
-                // Dialogue consumes input first
-                if (dialogue_is_active())
-                {
-                    dialogue_handle_key(key);
-                    continue;
-                }
-
-                if (key == SDLK_ESCAPE)
-                    running = false;
-
-                // TALK TO NPC - T key
-                if (key == SDLK_t)
-                {
-                    Room *room = map_get_current_room(&game_map);
-
-                    for (int i = 0; i < room->npc_count; i++)
-                    {
-                        NPC *npc = &room->npcs[i];
-
-                        bool touching =
-                            (player.grid_x == npc->x && player.grid_y == npc->y - 1) ||
-                            (player.grid_x == npc->x && player.grid_y == npc->y + 1) ||
-                            (player.grid_x == npc->x - 1 && player.grid_y == npc->y) ||
-                            (player.grid_x == npc->x + 1 && player.grid_y == npc->y);
-
-                        if (!touching)
-                            continue;
-
-                        // Dialogue routes based on NPC name
-                        if (strcmp(npc->name, "TA Navid") == 0)
-                        {
-                            dialogue_set_portrait("assets/dialogue/navidDialogue.png");
-                            dialogue_start(
-                                "The bears keep attacking me!! Please help me get rid of some..\nQuest Started: Catch 5 Bears"
-                            );
-                            break;
-                        }
-
-                        if (strcmp(npc->name, "TA Soroush") == 0)
-                        {
-                            dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
-                            dialogue_start(
-                                "My lunch keeps going missing... I feel like I know the culprits. Could you help?\nQuest Started: Catch 3 Raccoons"
-                            );
-                            break;
-                        }
-
-                        if (strcmp(npc->name, "Professor Matthew") == 0)
-                        {
-                            dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
-                            dialogue_start(
-                                "Hey why are you out of class?? Nevermind.. could you help me get some deer?\nQuest Started: Catch 4 Deers"
-                            );
-                            break;
-                        }
-                    }
-                }
-            }
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+                running = false;
         }
+
+        input_poll_once_per_frame();
 
         Room *current_room = map_get_current_room(&game_map);
 
@@ -146,6 +96,94 @@ void game_run(void)
                          player_get_grid_y(&player));
 
         // ------------------------------------------
+        // DIALOGUE HANDLING (T key on host, button on target)
+        // ------------------------------------------
+        if (input_is_interact_pressed(&interact_was_pressed))
+        {
+            // If dialogue is active, close it
+            if (dialogue_is_active())
+            {
+                dialogue_handle_key(SDLK_t); // Close dialogue
+            }
+            else
+            {
+                // Try to talk to nearby NPC
+                for (int i = 0; i < current_room->npc_count; i++)
+                {
+                    NPC *npc = &current_room->npcs[i];
+
+                    bool touching =
+                        (player.grid_x == npc->x && player.grid_y == npc->y - 1) ||
+                        (player.grid_x == npc->x && player.grid_y == npc->y + 1) ||
+                        (player.grid_x == npc->x - 1 && player.grid_y == npc->y) ||
+                        (player.grid_x == npc->x + 1 && player.grid_y == npc->y);
+
+                    if (!touching)
+                        continue;
+
+                    // Check if quest is already completed
+                    Quest *existing_quest = quest_get_by_npc(&quests, npc->name);
+
+                    if (existing_quest && existing_quest->is_completed)
+                    {
+                        // Quest already done - show completion message
+                        dialogue_set_portrait(npc->portrait_path);
+                        dialogue_start("Thank you so much for your help! You're amazing!");
+                        break;
+                    }
+
+                    if (existing_quest && existing_quest->is_active)
+                    {
+                        // Quest in progress - show progress
+                        char progress[128];
+                        quest_get_progress_string(existing_quest, progress, sizeof(progress));
+
+                        char msg[256];
+                        snprintf(msg, sizeof(msg), "How's it going?\n%s", progress);
+
+                        dialogue_set_portrait(npc->portrait_path);
+                        dialogue_start(msg);
+                        break;
+                    }
+
+                    // NEW QUEST - Dialogue routes based on NPC name
+                    if (strcmp(npc->name, "TA Navid") == 0)
+                    {
+                        dialogue_set_portrait("assets/dialogue/navidDialogue.png");
+                        dialogue_start(
+                            "The bears keep attacking me!! Please help me get rid of some..\nQuest Started: Catch 5 Bears");
+
+                        // START THE QUEST
+                        quest_start(&quests, "TA Navid", PET_BEAR, 5);
+                        break;
+                    }
+
+                    if (strcmp(npc->name, "TA Soroush") == 0)
+                    {
+                        dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
+                        dialogue_start(
+                            "My lunch keeps going missing... I feel like I know the culprits. Could you help?\nQuest Started: Catch 3 Raccoons");
+
+                        // START THE QUEST
+                        quest_start(&quests, "TA Soroush", PET_RACCOON, 3);
+                        break;
+                    }
+
+                    if (strcmp(npc->name, "Professor Matthew") == 0)
+                    {
+                        dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
+                        dialogue_start(
+                            "Hey why are you out of class?? Nevermind.. could you help me get some deer?\nQuest Started: Catch 4 Deers");
+
+                        // START THE QUEST
+                        quest_start(&quests, "Professor Matthew", PET_DEER, 4);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // ------------------------------------------
         // DIALOGUE FREEZE MODE
         // ------------------------------------------
         if (dialogue_is_active())
@@ -153,11 +191,10 @@ void game_run(void)
             dialogue_update_typewriter();
 
             // Draw full frame with no movement
-            display_clear(0,0,0);
+            display_clear(0, 0, 0);
 
             map_render_background(&game_map, renderer);
 
-            // rendering_draw_obstacles(current_room->obstacles);
             rendering_draw_doors(current_room->doors, current_room->door_count);
 
             pet_render_all(&pets, renderer,
@@ -176,7 +213,7 @@ void game_run(void)
         }
 
         // ------------------------------------------
-        // PET CATCHING (SPACE)
+        // PET CATCHING (SPACE on host, button on target)
         // ------------------------------------------
         if (input_is_catch_pressed(&space_was_pressed))
         {
@@ -188,8 +225,14 @@ void game_run(void)
             if (p != NULL)
             {
                 audio_play_sound(SOUND_CATCH);
+
+                PetType caught_type = p->type;
+
                 pet_catch(&pets, p);
                 pet_check_respawn(&pets, renderer);
+
+                // UPDATE QUESTS
+                quest_on_catch(&quests, caught_type);
             }
         }
 
@@ -210,9 +253,9 @@ void game_run(void)
         player_update_animation(&player);
 
         // ------------------------------------------
-        // ROOM TRANSITION
+        // ROOM TRANSITION (with teleport lock)
         // ------------------------------------------
-        if (!player.is_moving)
+        if (!player.is_moving && !player.just_teleported)
         {
             Door *door = map_check_door_collision(&game_map,
                                                   player_get_grid_x(&player),
@@ -234,21 +277,37 @@ void game_run(void)
                 player.render_y = new_y * TILE_SIZE;
                 player.is_moving = false;
 
+                // Prevent infinite re-triggering
+                player.just_teleported = true;
+
                 current_room = map_get_current_room(&game_map);
                 music_change_room(current_room->music_path);
             }
         }
 
         // ------------------------------------------
+        // RESET TELEPORT LOCK when leaving the door
+        // ------------------------------------------
+        if (player.just_teleported)
+        {
+            // If not standing on any door anymore, unlock teleport
+            if (map_check_door_collision(&game_map,
+                                         player_get_grid_x(&player),
+                                         player_get_grid_y(&player)) == NULL)
+            {
+                player.just_teleported = false;
+            }
+        }
+
+        // ------------------------------------------
         // NORMAL FRAME RENDERING
         // ------------------------------------------
-        display_clear(0,0,0);
+        display_clear(0, 0, 0);
 
         // Draw background FIRST
         map_render_background(&game_map, renderer);
 
         // Draw all gameplay layers
-        //rendering_draw_obstacles(current_room->obstacles);
         rendering_draw_doors(current_room->doors, current_room->door_count);
 
         pet_render_all(&pets, renderer,

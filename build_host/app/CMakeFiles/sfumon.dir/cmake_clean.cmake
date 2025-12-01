@@ -20,6 +20,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/sfumon.dir/src/npc.c.o.d"
   "CMakeFiles/sfumon.dir/src/player.c.o"
   "CMakeFiles/sfumon.dir/src/player.c.o.d"
+  "CMakeFiles/sfumon.dir/src/quest.c.o"
+  "CMakeFiles/sfumon.dir/src/quest.c.o.d"
   "CMakeFiles/sfumon.dir/src/rendering.c.o"
   "CMakeFiles/sfumon.dir/src/rendering.c.o.d"
   "sfumon"

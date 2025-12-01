@@ -4,16 +4,17 @@
 #include "hal/sprite.h"
 #include <SDL2/SDL.h>
 
-typedef struct {
-    int x;
-    int y;
+typedef struct
+{
+    int x, y;
     bool caught;
     char name[20];
-    Sprite sprite;  // Add sprite
+    Sprite sprite;
+    char portrait_path[128];
 } NPC;
 
-void npc_init_all(NPC* npcs, int* count, SDL_Renderer* renderer);
-bool npc_try_catch(NPC* npcs, int count, int player_x, int player_y, int* total_caught);
-void npc_cleanup_all(NPC* npcs, int count);
+void npc_init_all(NPC *npcs, int *count, SDL_Renderer *renderer);
+bool npc_try_catch(NPC *npcs, int count, int player_x, int player_y, int *total_caught);
+void npc_cleanup_all(NPC *npcs, int count);
 
 #endif

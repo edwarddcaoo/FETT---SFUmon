@@ -3,6 +3,7 @@
 
 static bool use_joystick = false;
 static bool use_button = false;
+static bool cached_button_just_pressed = false;
 
 // Detect if we're on target device by checking for SPI
 static bool is_target_device(void)
@@ -47,6 +48,19 @@ bool input_initialize(void)
     }
 
     return true;
+}
+
+void input_poll_once_per_frame(void)
+{
+    if (use_button)
+        cached_button_just_pressed = button_wasJustPressed();
+    else
+        cached_button_just_pressed = false;
+}
+
+bool input_button_just_pressed_cached(void)
+{
+    return cached_button_just_pressed;
 }
 
 InputDirection input_get_direction(void)
@@ -101,8 +115,8 @@ bool input_is_catch_pressed(bool *last_state)
 {
     if (use_button)
     {
-        // Use hardware button (already has edge detection built-in)
-        return button_wasJustPressed();
+        // Use hardware button
+        return input_button_just_pressed_cached();
     }
     else
     {
@@ -113,6 +127,24 @@ bool input_is_catch_pressed(bool *last_state)
         bool just_pressed = (current_state && !(*last_state));
         *last_state = current_state;
 
+        return just_pressed;
+    }
+}
+
+bool input_is_interact_pressed(bool *last_state)
+{
+    if (use_button)
+    {
+        // Use same hardware button
+        return input_button_just_pressed_cached();
+    }
+    else
+    {
+        // Use keyboard 'T' key with edge detection
+        const Uint8 *keys = SDL_GetKeyboardState(NULL);
+        bool current_state = keys[SDL_SCANCODE_T];
+        bool just_pressed = (current_state && !(*last_state));
+        *last_state = current_state;
         return just_pressed;
     }
 }

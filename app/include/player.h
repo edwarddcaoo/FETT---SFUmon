@@ -28,14 +28,17 @@ typedef struct
     // Add sprite data
     Sprite sprites[DIR_COUNT];
     Direction current_direction;
+
+    bool just_teleported;
+
 } Player;
 
 void player_init(Player *player, int start_x, int start_y, SDL_Renderer *renderer);
 
-void player_handle_movement(Player* player, InputDirection dir,
-                           int obstacles[][GRID_WIDTH], void* npcs_ptr, int npc_count,
-                           unsigned int current_time, unsigned int* last_move_time,
-                           void* pets_ptr, int current_room_id);
+void player_handle_movement(Player *player, InputDirection dir,
+                            int obstacles[][GRID_WIDTH], void *npcs_ptr, int npc_count,
+                            unsigned int current_time, unsigned int *last_move_time,
+                            void *pets_ptr, int current_room_id);
 
 void player_update_animation(Player *player);
 

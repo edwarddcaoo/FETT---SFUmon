@@ -15,6 +15,7 @@ set(APP_SOURCES
     src/player.c
     src/rendering.c
     src/dialogue.c
+    src/quest.c
 )
 
 

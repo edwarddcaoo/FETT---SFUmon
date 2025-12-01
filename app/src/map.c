@@ -90,8 +90,10 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
 
         // Bottom seating
         obstacles[12][13] = 1;
-        for (int x = 12; x <= 15; x++) obstacles[13][x] = 1;
-        for (int x = 13; x <= 16; x++) obstacles[14][x] = 1;
+        for (int x = 12; x <= 15; x++)
+            obstacles[13][x] = 1;
+        for (int x = 13; x <= 16; x++)
+            obstacles[14][x] = 1;
 
         break;
 
@@ -105,8 +107,10 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
             for (int y = 0; y <= 6; y++)
                 obstacles[y][x] = 1;
 
-        for (int x = 0; x <= 6; x++) obstacles[7][x] = 1;
-        for (int x = 8; x <= 29; x++) obstacles[7][x] = 1;
+        for (int x = 0; x <= 5; x++)
+            obstacles[7][x] = 1;
+        for (int x = 9; x <= 29; x++)
+            obstacles[7][x] = 1;
 
         // U table
         for (int x = 9; x <= 11; x++)
@@ -122,8 +126,10 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
                 obstacles[y][x] = 1;
 
         // Chairs
-        for (int y = 12; y <= 13; y++) obstacles[y][7] = 1;
-        for (int y = 16; y <= 18; y++) obstacles[y][7] = 1;
+        for (int y = 12; y <= 13; y++)
+            obstacles[y][7] = 1;
+        for (int y = 16; y <= 18; y++)
+            obstacles[y][7] = 1;
 
         obstacles[19][10] = 1;
         obstacles[19][11] = 1;
@@ -147,24 +153,25 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
     // ------------------------------------------------
     case ROOM_PITLAB:
 
-        for (int x = 7; x <= 9; x++) obstacles[1][x] = 1;
-        for (int x = 12; x <= 17; x++) obstacles[1][x] = 1;
-        for (int x = 21; x <= 23; x++) obstacles[1][x] = 1;
+        for (int x = 7; x <= 9; x++)
+            obstacles[1][x] = 1;
+        for (int x = 12; x <= 17; x++)
+            obstacles[1][x] = 1;
+        for (int x = 21; x <= 23; x++)
+            obstacles[1][x] = 1;
 
-        for (int y = 2; y <= 18; y++) obstacles[y][7] = 1;
+        for (int y = 2; y <= 18; y++)
+            obstacles[y][7] = 1;
 
         for (int x = 14; x <= 15; x++)
             for (int y = 2; y <= 18; y++)
                 obstacles[y][x] = 1;
 
-        for (int y = 2; y <= 18; y++) obstacles[y][23] = 1;
+        for (int y = 2; y <= 18; y++)
+            obstacles[y][23] = 1;
 
         int chairs[][2] = {
-            {3,8},{4,8},{6,8},{7,8},{12,8},{13,8},
-            {3,13},{4,13},{6,13},{7,13},{12,13},{13,13},
-            {3,17},{4,17},{6,17},{7,17},{12,17},{13,17},
-            {3,21},{4,21},{6,21},{7,21},{12,21},{13,21}
-        };
+            {3, 8}, {4, 8}, {6, 8}, {7, 8}, {12, 8}, {13, 8}, {3, 13}, {4, 13}, {6, 13}, {7, 13}, {12, 13}, {13, 13}, {3, 17}, {4, 17}, {6, 17}, {7, 17}, {12, 17}, {13, 17}, {3, 21}, {4, 21}, {6, 21}, {7, 21}, {12, 21}, {13, 21}};
         for (int i = 0; i < 24; i++)
             obstacles[chairs[i][0]][chairs[i][1]] = 1;
 
@@ -206,6 +213,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     asb->npcs[0].caught = false;
     strcpy(asb->npcs[0].name, "TA Soroush");
     sprite_load(&asb->npcs[0].sprite, renderer, "assets/sprites/npc/Soroush.png");
+    strcpy(asb->npcs[0].portrait_path, "assets/dialogue/soroushDialogue.png");
 
     // ==============================
     // CLASSROOM
@@ -218,7 +226,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     init_room_obstacles(classroom->obstacles, ROOM_CLASSROOM);
 
     classroom->door_count = 1;
-    classroom->doors[0] = (Door){7, 7, DOOR_TYPE_DOOR, ROOM_ASB, 26, 17};
+    classroom->doors[0] = (Door){7, 7, DOOR_TYPE_DOOR, ROOM_ASB, 27, 17};
 
     classroom->npc_count = 1;
 
@@ -228,6 +236,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     classroom->npcs[0].caught = false;
     strcpy(classroom->npcs[0].name, "TA Navid");
     sprite_load(&classroom->npcs[0].sprite, renderer, "assets/sprites/npc/Navid.png");
+    strcpy(classroom->npcs[0].portrait_path, "assets/dialogue/navidDialogue.png");
 
     // ==============================
     // PIT LAB
@@ -249,6 +258,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     pitlab->npcs[0].caught = false;
     strcpy(pitlab->npcs[0].name, "Professor Matthew");
     sprite_load(&pitlab->npcs[0].sprite, renderer, "assets/sprites/npc/Matthew.png");
+    strcpy(pitlab->npcs[0].portrait_path, "assets/dialogue/matthewDialogue.png");
 
     printf("Map initialized with %d rooms\n", ROOM_COUNT);
 }

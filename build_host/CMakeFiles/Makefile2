@@ -159,12 +159,12 @@ hal/CMakeFiles/hal.dir/clean:
 app/CMakeFiles/sfumon.dir/all: hal/CMakeFiles/hal.dir/all
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/depend
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=8,9,10,11,12,13,14,15,16,17,18,19 "Built target sfumon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=8,9,10,11,12,13,14,15,16,17,18,19,20 "Built target sfumon"
 .PHONY : app/CMakeFiles/sfumon.dir/all
 
 # Build rule for subdir invocation for target.
 app/CMakeFiles/sfumon.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/sfumon.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles 0
 .PHONY : app/CMakeFiles/sfumon.dir/rule
@@ -176,7 +176,7 @@ sfumon: app/CMakeFiles/sfumon.dir/rule
 # codegen rule for target.
 app/CMakeFiles/sfumon.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=8,9,10,11,12,13,14,15,16,17,18,19 "Finished codegen for target sfumon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=8,9,10,11,12,13,14,15,16,17,18,19,20 "Finished codegen for target sfumon"
 .PHONY : app/CMakeFiles/sfumon.dir/codegen
 
 # clean rule for target.

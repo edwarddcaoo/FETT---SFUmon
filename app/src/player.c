@@ -17,6 +17,8 @@ void player_init(Player *player, int start_x, int start_y, SDL_Renderer *rendere
     player->target_grid_y = start_y;
     player->current_direction = DIR_DOWN; // Start facing down
 
+    player->just_teleported = false;
+
     // Load all directional sprites
     const char *sprite_paths[DIR_COUNT] = {
         "assets/sprites/player/player_down.png",
@@ -88,7 +90,7 @@ void player_handle_movement(Player *player, InputDirection dir,
                     break;
                 }
             }
-            
+
             // Check if pet blocks the tile
             bool pet_blocking = pet_blocks_movement(pets, new_x, new_y, current_room_id);
 

@@ -100,5 +100,11 @@
   "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/dialogue.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c",
   "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c",
   "output": "app/CMakeFiles/sfumon.dir/src/dialogue.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/quest.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/quest.c.o"
 }
 ]
