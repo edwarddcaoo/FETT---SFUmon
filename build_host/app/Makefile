@@ -130,6 +130,30 @@ sfumon/fast:
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/build
 .PHONY : sfumon/fast
 
+src/catch.o: src/catch.c.o
+.PHONY : src/catch.o
+
+# target to build an object file
+src/catch.c.o:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/catch.c.o
+.PHONY : src/catch.c.o
+
+src/catch.i: src/catch.c.i
+.PHONY : src/catch.i
+
+# target to preprocess a source file
+src/catch.c.i:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/catch.c.i
+.PHONY : src/catch.c.i
+
+src/catch.s: src/catch.c.s
+.PHONY : src/catch.s
+
+# target to generate assembly for a file
+src/catch.c.s:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/catch.c.s
+.PHONY : src/catch.c.s
+
 src/collision.o: src/collision.c.o
 .PHONY : src/collision.o
 
@@ -355,6 +379,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sfumon"
+	@echo "... src/catch.o"
+	@echo "... src/catch.i"
+	@echo "... src/catch.s"
 	@echo "... src/collision.o"
 	@echo "... src/collision.i"
 	@echo "... src/collision.s"

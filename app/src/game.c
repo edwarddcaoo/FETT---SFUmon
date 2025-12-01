@@ -156,7 +156,7 @@ void game_run(void)
         //  OLD RENDER
         map_render_background(&game_map, renderer);
         // rendering_draw_obstacles(current_room->obstacles);
-        map_render_debug_grid(renderer);
+        // map_render_debug_grid(renderer);
         rendering_draw_doors(current_room->doors, current_room->door_count);
         pet_render_all(&pets, renderer, current_room->id,
                        player_get_grid_x(&player), player_get_grid_y(&player));

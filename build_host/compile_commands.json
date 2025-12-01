@@ -37,6 +37,12 @@
 },
 {
   "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/catch.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/catch.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
   "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/collision.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c",
   "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c",
   "output": "app/CMakeFiles/sfumon.dir/src/collision.c.o"

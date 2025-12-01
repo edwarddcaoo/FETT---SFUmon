@@ -72,10 +72,24 @@ include app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/codegen:
 .PHONY : app/CMakeFiles/sfumon.dir/codegen
 
+app/CMakeFiles/sfumon.dir/src/catch.c.o: app/CMakeFiles/sfumon.dir/flags.make
+app/CMakeFiles/sfumon.dir/src/catch.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c
+app/CMakeFiles/sfumon.dir/src/catch.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object app/CMakeFiles/sfumon.dir/src/catch.c.o"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/catch.c.o -MF CMakeFiles/sfumon.dir/src/catch.c.o.d -o CMakeFiles/sfumon.dir/src/catch.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c
+
+app/CMakeFiles/sfumon.dir/src/catch.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/sfumon.dir/src/catch.c.i"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c > CMakeFiles/sfumon.dir/src/catch.c.i
+
+app/CMakeFiles/sfumon.dir/src/catch.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/sfumon.dir/src/catch.c.s"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c -o CMakeFiles/sfumon.dir/src/catch.c.s
+
 app/CMakeFiles/sfumon.dir/src/collision.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/collision.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c
 app/CMakeFiles/sfumon.dir/src/collision.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object app/CMakeFiles/sfumon.dir/src/collision.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object app/CMakeFiles/sfumon.dir/src/collision.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/collision.c.o -MF CMakeFiles/sfumon.dir/src/collision.c.o.d -o CMakeFiles/sfumon.dir/src/collision.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c
 
 app/CMakeFiles/sfumon.dir/src/collision.c.i: cmake_force
@@ -89,7 +103,7 @@ app/CMakeFiles/sfumon.dir/src/collision.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/game.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/game.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/game.c
 app/CMakeFiles/sfumon.dir/src/game.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object app/CMakeFiles/sfumon.dir/src/game.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object app/CMakeFiles/sfumon.dir/src/game.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/game.c.o -MF CMakeFiles/sfumon.dir/src/game.c.o.d -o CMakeFiles/sfumon.dir/src/game.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/game.c
 
 app/CMakeFiles/sfumon.dir/src/game.c.i: cmake_force
@@ -103,7 +117,7 @@ app/CMakeFiles/sfumon.dir/src/game.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/input.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/input.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c
 app/CMakeFiles/sfumon.dir/src/input.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object app/CMakeFiles/sfumon.dir/src/input.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object app/CMakeFiles/sfumon.dir/src/input.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/input.c.o -MF CMakeFiles/sfumon.dir/src/input.c.o.d -o CMakeFiles/sfumon.dir/src/input.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c
 
 app/CMakeFiles/sfumon.dir/src/input.c.i: cmake_force
@@ -117,7 +131,7 @@ app/CMakeFiles/sfumon.dir/src/input.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/main.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/main.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/main.c
 app/CMakeFiles/sfumon.dir/src/main.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object app/CMakeFiles/sfumon.dir/src/main.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object app/CMakeFiles/sfumon.dir/src/main.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/main.c.o -MF CMakeFiles/sfumon.dir/src/main.c.o.d -o CMakeFiles/sfumon.dir/src/main.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/main.c
 
 app/CMakeFiles/sfumon.dir/src/main.c.i: cmake_force
@@ -131,7 +145,7 @@ app/CMakeFiles/sfumon.dir/src/main.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/map.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/map.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/map.c
 app/CMakeFiles/sfumon.dir/src/map.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object app/CMakeFiles/sfumon.dir/src/map.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object app/CMakeFiles/sfumon.dir/src/map.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/map.c.o -MF CMakeFiles/sfumon.dir/src/map.c.o.d -o CMakeFiles/sfumon.dir/src/map.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/map.c
 
 app/CMakeFiles/sfumon.dir/src/map.c.i: cmake_force
@@ -145,7 +159,7 @@ app/CMakeFiles/sfumon.dir/src/map.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/music.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/music.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/music.c
 app/CMakeFiles/sfumon.dir/src/music.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object app/CMakeFiles/sfumon.dir/src/music.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object app/CMakeFiles/sfumon.dir/src/music.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/music.c.o -MF CMakeFiles/sfumon.dir/src/music.c.o.d -o CMakeFiles/sfumon.dir/src/music.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/music.c
 
 app/CMakeFiles/sfumon.dir/src/music.c.i: cmake_force
@@ -159,7 +173,7 @@ app/CMakeFiles/sfumon.dir/src/music.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/npc.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/npc.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c
 app/CMakeFiles/sfumon.dir/src/npc.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object app/CMakeFiles/sfumon.dir/src/npc.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object app/CMakeFiles/sfumon.dir/src/npc.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/npc.c.o -MF CMakeFiles/sfumon.dir/src/npc.c.o.d -o CMakeFiles/sfumon.dir/src/npc.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c
 
 app/CMakeFiles/sfumon.dir/src/npc.c.i: cmake_force
@@ -173,7 +187,7 @@ app/CMakeFiles/sfumon.dir/src/npc.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/player.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/player.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c
 app/CMakeFiles/sfumon.dir/src/player.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object app/CMakeFiles/sfumon.dir/src/player.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object app/CMakeFiles/sfumon.dir/src/player.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/player.c.o -MF CMakeFiles/sfumon.dir/src/player.c.o.d -o CMakeFiles/sfumon.dir/src/player.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c
 
 app/CMakeFiles/sfumon.dir/src/player.c.i: cmake_force
@@ -187,7 +201,7 @@ app/CMakeFiles/sfumon.dir/src/player.c.s: cmake_force
 app/CMakeFiles/sfumon.dir/src/rendering.c.o: app/CMakeFiles/sfumon.dir/flags.make
 app/CMakeFiles/sfumon.dir/src/rendering.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c
 app/CMakeFiles/sfumon.dir/src/rendering.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object app/CMakeFiles/sfumon.dir/src/rendering.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object app/CMakeFiles/sfumon.dir/src/rendering.c.o"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/rendering.c.o -MF CMakeFiles/sfumon.dir/src/rendering.c.o.d -o CMakeFiles/sfumon.dir/src/rendering.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c
 
 app/CMakeFiles/sfumon.dir/src/rendering.c.i: cmake_force
@@ -200,6 +214,7 @@ app/CMakeFiles/sfumon.dir/src/rendering.c.s: cmake_force
 
 # Object files for target sfumon
 sfumon_OBJECTS = \
+"CMakeFiles/sfumon.dir/src/catch.c.o" \
 "CMakeFiles/sfumon.dir/src/collision.c.o" \
 "CMakeFiles/sfumon.dir/src/game.c.o" \
 "CMakeFiles/sfumon.dir/src/input.c.o" \
@@ -213,6 +228,7 @@ sfumon_OBJECTS = \
 # External object files for target sfumon
 sfumon_EXTERNAL_OBJECTS =
 
+app/sfumon: app/CMakeFiles/sfumon.dir/src/catch.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/collision.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/game.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/input.c.o
@@ -228,7 +244,7 @@ app/sfumon: hal/libhal.a
 app/sfumon: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
 app/sfumon: /usr/lib/x86_64-linux-gnu/libSDL2_mixer.so
 app/sfumon: app/CMakeFiles/sfumon.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking C executable sfumon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking C executable sfumon"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sfumon.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying assets to build directory for local testing"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cmake -E copy_directory /home/farhin/ensc351/work/FETT---SFUmon/assets /home/farhin/ensc351/work/FETT---SFUmon/build_host/app/assets
