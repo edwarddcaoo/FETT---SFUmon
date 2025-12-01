@@ -10,7 +10,6 @@
 #include "music.h"
 #include "dialogue.h"
 #include "catch.h"
-
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
@@ -46,13 +45,9 @@ void game_run(void)
     // PET SYSTEM INITIALIZATION
     // ------------------------------------------
     PetManager pets;
-    pet_manager_init(&pets, renderer,
-                     3, 3, 2, 2); // bears, raccoons, deer, big deer
+    pet_manager_init(&pets, renderer, 3, 3, 2, 2);
     pet_spawn_initial(&pets, renderer);
 
-    // ------------------------------------------
-    // MUSIC INIT
-    // ------------------------------------------
     if (!music_init())
         fprintf(stderr, "Warning: Music initialization failed\n");
 
@@ -65,7 +60,6 @@ void game_run(void)
     {
         Uint32 current_time = SDL_GetTicks();
 
-        // Start BGM (delay)
         if (!music_has_started && current_time > 12000)
         {
             music_start_delayed();
@@ -152,21 +146,28 @@ void game_run(void)
                          player_get_grid_y(&player));
 
         // ------------------------------------------
-        // FREEZE GAME DURING DIALOGUE
+        // DIALOGUE FREEZE MODE
         // ------------------------------------------
         if (dialogue_is_active())
         {
             dialogue_update_typewriter();
 
-            display_clear(COLOR_BACKGROUND_R, COLOR_BACKGROUND_G, COLOR_BACKGROUND_B);
-            rendering_draw_obstacles(current_room->obstacles);
+            // Draw full frame with no movement
+            display_clear(0,0,0);
+
+            map_render_background(&game_map, renderer);
+
+            // rendering_draw_obstacles(current_room->obstacles);
             rendering_draw_doors(current_room->doors, current_room->door_count);
 
-            rendering_draw_npcs(current_room->npcs, current_room->npc_count,
-                                player_get_grid_x(&player),
-                                player_get_grid_y(&player));
+            pet_render_all(&pets, renderer,
+                           current_room->id,
+                           player_get_grid_x(&player),
+                           player_get_grid_y(&player));
 
+            rendering_draw_npcs(current_room->npcs, current_room->npc_count);
             rendering_draw_player(&player);
+
             dialogue_render(renderer);
 
             display_present();
@@ -179,8 +180,6 @@ void game_run(void)
         // ------------------------------------------
         if (input_is_catch_pressed(&space_was_pressed))
         {
-            printf("Space pressed! Checking nearby pets...\n");
-
             Pet *p = pet_check_adjacent(&pets,
                                         player_get_grid_x(&player),
                                         player_get_grid_y(&player),
@@ -241,11 +240,15 @@ void game_run(void)
         }
 
         // ------------------------------------------
-        // RENDERING
+        // NORMAL FRAME RENDERING
         // ------------------------------------------
-        display_clear(COLOR_BACKGROUND_R, COLOR_BACKGROUND_G, COLOR_BACKGROUND_B);
+        display_clear(0,0,0);
 
-        rendering_draw_obstacles(current_room->obstacles);
+        // Draw background FIRST
+        map_render_background(&game_map, renderer);
+
+        // Draw all gameplay layers
+        //rendering_draw_obstacles(current_room->obstacles);
         rendering_draw_doors(current_room->doors, current_room->door_count);
 
         pet_render_all(&pets, renderer,
@@ -255,7 +258,6 @@ void game_run(void)
 
         rendering_draw_npcs(current_room->npcs, current_room->npc_count);
         rendering_draw_player(&player);
-        dialogue_render(renderer);
 
         display_present();
         SDL_Delay(FRAME_DELAY);
