@@ -16,10 +16,9 @@ set(APP_SOURCES
     src/rendering.c
     src/dialogue.c
     src/rendering_ui.c
+    src/quest.c
 )
 
-# ADD THIS — find the SDL2_ttf library
-find_package(SDL2_ttf REQUIRED)
 
 # Create executable
 add_executable(sfumon ${APP_SOURCES})

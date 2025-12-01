@@ -1,5 +1,6 @@
 #include "catch.h"
 #include "common.h"
+#include "quest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -219,6 +220,33 @@ void pet_catch(PetManager* manager, Pet* pet) {
     
     pet->caught = true;
     manager->total_caught++;
+
+    // QUEST INTEGRATION
+// QUEST PROGRESS
+    switch (pet->type)
+    {
+        case PET_BEAR:
+            quest_progress(QUEST_BEAR_5);
+            break;
+
+        case PET_RACCOON:
+            quest_progress(QUEST_RACCOON_3);
+            break;
+
+        case PET_DEER:
+            quest_progress(QUEST_DEER_4);
+            break;
+
+        case PET_BIGDEER:
+            quest_progress(QUEST_BIGDEER_2);
+            break;
+
+        case PET_TYPE_COUNT:
+        default:
+            break;
+    }
+
+
     
     printf("✓ Caught %s! Total: %d/%d\n", 
            PET_NAMES[pet->type], manager->total_caught, manager->count);

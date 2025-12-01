@@ -15,6 +15,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_image/Findwebp.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_image/sdl2_image-config-version.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_image/sdl2_image-config.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/SDL2_ttf/sdl2_ttf-config-version.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/SDL2_ttf/sdl2_ttf-config.cmake"
   "/usr/share/cmake-3.31/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.31/Modules/CMakeCommonLanguageInclude.cmake"
   "/usr/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake"

@@ -36,14 +36,20 @@ static void render_text(SDL_Renderer *renderer, const char *text)
 
 void dialogue_init(SDL_Renderer *renderer)
 {
-    g_dialogue.renderer = renderer;  // ⭐ STORE THE RENDERER
+    g_dialogue.renderer = renderer;
 
     if (TTF_Init() < 0)
         printf("TTF Init error: %s\n", TTF_GetError());
 
+    // Dialogue font (large)
     g_dialogue.font = TTF_OpenFont(FONT_PATH, FONT_SIZE);
     if (!g_dialogue.font)
         printf("Font load error: %s\n", TTF_GetError());
+
+    // ⭐ QUEST FONT (smaller UI font)
+    g_dialogue.quest_font = TTF_OpenFont(FONT_PATH, 55);   // <-- adjust size here
+    if (!g_dialogue.quest_font)
+        printf("Quest font load error: %s\n", TTF_GetError());
 
     // Load default dialogue box image
     g_dialogue.texture = IMG_LoadTexture(renderer, "assets/dialogue/navidDialogue.png");
@@ -125,6 +131,9 @@ void dialogue_cleanup(void)
     if (g_dialogue.font)
         TTF_CloseFont(g_dialogue.font);
 
+    if (g_dialogue.quest_font)
+        TTF_CloseFont(g_dialogue.quest_font);
+
     TTF_Quit();
 }
 
@@ -137,4 +146,14 @@ void dialogue_set_portrait(const char *path)
 
     if (!g_dialogue.texture)
         printf("Portrait load error %s: %s\n", path, IMG_GetError());
+}
+
+TTF_Font* dialogue_get_font(void)
+{
+    return g_dialogue.font;
+}
+
+TTF_Font* dialogue_get_quest_font(void)
+{
+    return g_dialogue.quest_font;
 }

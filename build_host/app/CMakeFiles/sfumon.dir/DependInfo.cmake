@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c" "app/CMakeFiles/sfumon.dir/src/catch.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/catch.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c" "app/CMakeFiles/sfumon.dir/src/collision.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/collision.c.o.d"
+  "/home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c" "app/CMakeFiles/sfumon.dir/src/dialogue.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/dialogue.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/game.c" "app/CMakeFiles/sfumon.dir/src/game.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/game.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c" "app/CMakeFiles/sfumon.dir/src/input.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/input.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/main.c" "app/CMakeFiles/sfumon.dir/src/main.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/main.c.o.d"
@@ -17,6 +18,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/music.c" "app/CMakeFiles/sfumon.dir/src/music.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/music.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c" "app/CMakeFiles/sfumon.dir/src/npc.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/npc.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c" "app/CMakeFiles/sfumon.dir/src/player.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/player.c.o.d"
+  "/home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c" "app/CMakeFiles/sfumon.dir/src/quest.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/quest.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c" "app/CMakeFiles/sfumon.dir/src/rendering.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/rendering.c.o.d"
   "" "app/sfumon" "gcc" "app/CMakeFiles/sfumon.dir/link.d"
   )
