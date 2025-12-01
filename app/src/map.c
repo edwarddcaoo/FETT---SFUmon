@@ -2,217 +2,314 @@
 #include "collision.h"
 #include <string.h>
 #include <stdio.h>
+#include <SDL2/SDL_image.h>
 
-// Helper function to initialize room obstacles
-static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID room_id) {
-    // Clear all obstacles first
-    for (int y = 0; y < GRID_HEIGHT; y++) {
-        for (int x = 0; x < GRID_WIDTH; x++) {
+// ----------------------------------------------------
+// Load background PNG
+// ----------------------------------------------------
+static SDL_Texture *load_room_texture(SDL_Renderer *renderer, const char *path)
+{
+    SDL_Surface *surface = IMG_Load(path);
+    if (!surface)
+    {
+        fprintf(stderr, "Failed to load image %s: %s\n", path, IMG_GetError());
+        return NULL;
+    }
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!texture)
+        fprintf(stderr, "Failed to create texture from %s: %s\n", path, SDL_GetError());
+
+    printf("Loaded background: %s\n", path);
+    return texture;
+}
+
+// ----------------------------------------------------
+// Debug overlay grid
+// ----------------------------------------------------
+void map_render_debug_grid(SDL_Renderer *renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
+
+    for (int x = 0; x <= GRID_WIDTH; x++)
+        SDL_RenderDrawLine(renderer, x * TILE_SIZE, 0,
+                           x * TILE_SIZE, WINDOW_HEIGHT);
+
+    for (int y = 0; y <= GRID_HEIGHT; y++)
+        SDL_RenderDrawLine(renderer, 0, y * TILE_SIZE,
+                           WINDOW_WIDTH, y * TILE_SIZE);
+}
+
+// ----------------------------------------------------
+// Obstacles
+// ----------------------------------------------------
+static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID room_id)
+{
+    for (int y = 0; y < GRID_HEIGHT; y++)
+        for (int x = 0; x < GRID_WIDTH; x++)
             obstacles[y][x] = 0;
-        }
-    }
-    
-    // Add border walls for all rooms
-    for (int x = 0; x < GRID_WIDTH; x++) {
-        obstacles[0][x] = 1;
-        obstacles[GRID_HEIGHT - 1][x] = 1;
-    }
-    for (int y = 0; y < GRID_HEIGHT; y++) {
-        obstacles[y][0] = 1;
-        obstacles[y][GRID_WIDTH - 1] = 1;
-    }
-    
-    // Room-specific obstacles
-    switch (room_id) {
-        case ROOM_BASEMENT:
-            // Basement - some pillars
-            obstacles[5][10] = 1;
-            obstacles[5][11] = 1;
-            obstacles[10][10] = 1;
-            obstacles[10][11] = 1;
-            
-            obstacles[5][20] = 1;
-            obstacles[5][21] = 1;
-            obstacles[10][20] = 1;
-            obstacles[10][21] = 1;
-            
-            // Block 3 sides of stairs (at x=15, y=2), leave bottom open
-            obstacles[1][15] = 1;  // Top
-            obstacles[2][14] = 1;  // Left
-            obstacles[2][16] = 1;  // Right
-            break;
-            
-        case ROOM_MAIN:
-            // Main floor - your existing obstacle layout
-            obstacles[5][6] = 1;
-            obstacles[5][7] = 1;
-            obstacles[6][6] = 1;
-            obstacles[6][7] = 1;
-            
-            // Block 3 sides of stairs down (at x=10, y=12), leave top open
-            obstacles[12][9] = 1;   // Left
-            obstacles[12][11] = 1;  // Right
-            obstacles[13][10] = 1;  // Bottom
-            
-            // Block 3 sides of classroom door (at x=28, y=10), leave left open
-            obstacles[9][28] = 1;   // Top
-            obstacles[11][28] = 1;  // Bottom
-            obstacles[10][29] = 1;  // Right
-            break;
-            
-        case ROOM_CLASSROOM:
-            // Classroom - desks in rows
-            for (int row = 3; row < 12; row += 3) {
-                for (int col = 5; col < 25; col += 4) {
-                    obstacles[row][col] = 1;
-                    obstacles[row][col + 1] = 1;
-                }
-            }
-            
-            // Block 3 sides of exit door (at x=2, y=10), leave right open
-            obstacles[9][2] = 1;   // Top
-            obstacles[11][2] = 1;  // Bottom
-            obstacles[10][1] = 1;  // Left
-            break;
 
-        case ROOM_COUNT:  // Add these lines
-        default:
-            break;
+    switch (room_id)
+    {
+    // ------------------------------------------------
+    // ASB
+    // ------------------------------------------------
+    case ROOM_ASB:
+
+        // Table 1
+        for (int x = 9; x <= 11; x++)
+            for (int y = 6; y <= 7; y++)
+                obstacles[y][x] = 1;
+
+        // Table 2
+        for (int x = 17; x <= 19; x++)
+            for (int y = 3; y <= 4; y++)
+                obstacles[y][x] = 1;
+
+        // Table 3
+        for (int x = 17; x <= 19; x++)
+            for (int y = 11; y <= 12; y++)
+                obstacles[y][x] = 1;
+
+        // Sign
+        for (int x = 14; x <= 15; x++)
+            for (int y = 16; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        // White couch
+        for (int x = 13; x <= 16; x++)
+            for (int y = 4; y <= 6; y++)
+                obstacles[y][x] = 1;
+
+        // Middle couch
+        for (int x = 13; x <= 15; x++)
+            for (int y = 8; y <= 10; y++)
+                obstacles[y][x] = 1;
+
+        // Bottom seating
+        obstacles[12][13] = 1;
+        for (int x = 12; x <= 15; x++) obstacles[13][x] = 1;
+        for (int x = 13; x <= 16; x++) obstacles[14][x] = 1;
+
+        break;
+
+    // ------------------------------------------------
+    // CLASSROOM
+    // ------------------------------------------------
+    case ROOM_CLASSROOM:
+
+        // Wall
+        for (int x = 0; x <= 29; x++)
+            for (int y = 0; y <= 6; y++)
+                obstacles[y][x] = 1;
+
+        for (int x = 0; x <= 6; x++) obstacles[7][x] = 1;
+        for (int x = 8; x <= 29; x++) obstacles[7][x] = 1;
+
+        // U table
+        for (int x = 9; x <= 11; x++)
+            for (int y = 10; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        for (int x = 12; x <= 15; x++)
+            for (int y = 15; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        for (int x = 16; x <= 18; x++)
+            for (int y = 10; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        // Chairs
+        for (int y = 12; y <= 13; y++) obstacles[y][7] = 1;
+        for (int y = 16; y <= 18; y++) obstacles[y][7] = 1;
+
+        obstacles[19][10] = 1;
+        obstacles[19][11] = 1;
+
+        for (int x = 21; x <= 23; x++)
+            for (int y = 14; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        obstacles[15][19] = 1;
+        obstacles[16][19] = 1;
+        obstacles[11][19] = 1;
+
+        for (int x = 21; x <= 22; x++)
+            for (int y = 12; y <= 13; y++)
+                obstacles[y][x] = 1;
+
+        break;
+
+    // ------------------------------------------------
+    // PIT LAB
+    // ------------------------------------------------
+    case ROOM_PITLAB:
+
+        for (int x = 7; x <= 9; x++) obstacles[1][x] = 1;
+        for (int x = 12; x <= 17; x++) obstacles[1][x] = 1;
+        for (int x = 21; x <= 23; x++) obstacles[1][x] = 1;
+
+        for (int y = 2; y <= 18; y++) obstacles[y][7] = 1;
+
+        for (int x = 14; x <= 15; x++)
+            for (int y = 2; y <= 18; y++)
+                obstacles[y][x] = 1;
+
+        for (int y = 2; y <= 18; y++) obstacles[y][23] = 1;
+
+        int chairs[][2] = {
+            {3,8},{4,8},{6,8},{7,8},{12,8},{13,8},
+            {3,13},{4,13},{6,13},{7,13},{12,13},{13,13},
+            {3,17},{4,17},{6,17},{7,17},{12,17},{13,17},
+            {3,21},{4,21},{6,21},{7,21},{12,21},{13,21}
+        };
+        for (int i = 0; i < 24; i++)
+            obstacles[chairs[i][0]][chairs[i][1]] = 1;
+
+        break;
+
+    default:
+        break;
     }
 }
 
-void map_init(Map* map, SDL_Renderer* renderer) {
-    // Start in main room
-    map->current_room_id = ROOM_MAIN;
-    
-    // ===== BASEMENT ROOM =====
-    Room* basement = &map->rooms[ROOM_BASEMENT];
-    basement->id = ROOM_BASEMENT;
-    strcpy(basement->name, "Basement");
-    strcpy(basement->music_path, "assets/music/basement.ogg");
-    init_room_obstacles(basement->obstacles, ROOM_BASEMENT);
-    
-    // Stairs up to main level
-    basement->door_count = 1;
-    basement->doors[0].x = 15;
-    basement->doors[0].y = 2;
-    basement->doors[0].type = DOOR_TYPE_STAIRS_UP;
-    basement->doors[0].target_room = ROOM_MAIN;
-    basement->doors[0].spawn_x = 10;
-    basement->doors[0].spawn_y = 11;  // Changed from 12 to 11 (one tile above door)
-    
-    // Basement NPCs
-    basement->npc_count = 1;
-    basement->npcs[0].x = 8;
-    basement->npcs[0].y = 8;
-    basement->npcs[0].caught = false;
-    strcpy(basement->npcs[0].name, "Basement Janitor");
-    sprite_load(&basement->npcs[0].sprite, renderer, "assets/sprites/npc/Soroush.png");
-    
-    // ===== MAIN LEVEL ROOM =====
-    Room* main_room = &map->rooms[ROOM_MAIN];
-    main_room->id = ROOM_MAIN;
-    strcpy(main_room->name, "Main Hall");
-    strcpy(main_room->music_path, "assets/music/main_hall.ogg");
-    init_room_obstacles(main_room->obstacles, ROOM_MAIN);
-    
-    // Two doors: stairs down to basement, door to classroom
-    main_room->door_count = 2;
-    
-    // Stairs down to basement
-    main_room->doors[0].x = 10;
-    main_room->doors[0].y = 12;
-    main_room->doors[0].type = DOOR_TYPE_STAIRS_DOWN;
-    main_room->doors[0].target_room = ROOM_BASEMENT;
-    main_room->doors[0].spawn_x = 15;
-    main_room->doors[0].spawn_y = 3;  // Changed from 3 to 3 (one tile below door at y=2)
-    
-    // Door to classroom
-    main_room->doors[1].x = 28;
-    main_room->doors[1].y = 10;
-    main_room->doors[1].type = DOOR_TYPE_DOOR;
-    main_room->doors[1].target_room = ROOM_CLASSROOM;
-    main_room->doors[1].spawn_x = 3;  // Changed from 3 to 3 (one tile to right of door at x=2)
-    main_room->doors[1].spawn_y = 10;
-    
-    // Main room NPCs - your existing NPCs
-    main_room->npc_count = 2;
-    
-    main_room->npcs[0].x = 15;
-    main_room->npcs[0].y = 7;
-    main_room->npcs[0].caught = false;
-    strcpy(main_room->npcs[0].name, "Professor Matthew");
-    sprite_load(&main_room->npcs[0].sprite, renderer, "assets/sprites/npc/Matthew.png");
-    
-    main_room->npcs[1].x = 12;
-    main_room->npcs[1].y = 10;
-    main_room->npcs[1].caught = false;
-    strcpy(main_room->npcs[1].name, "TA Navid");
-    sprite_load(&main_room->npcs[1].sprite, renderer, "assets/sprites/npc/Navid.png");
-    
-    // ===== CLASSROOM ROOM =====
-    Room* classroom = &map->rooms[ROOM_CLASSROOM];
+// ----------------------------------------------------
+// MAP INIT
+// ----------------------------------------------------
+void map_init(Map *map, SDL_Renderer *renderer)
+{
+    IMG_Init(IMG_INIT_PNG);
+
+    map->current_room_id = ROOM_ASB;
+
+    // ==============================
+    // ASB
+    // ==============================
+    Room *asb = &map->rooms[ROOM_ASB];
+    asb->id = ROOM_ASB;
+    strcpy(asb->name, "ASB");
+    strcpy(asb->music_path, "assets/music/main_hall.ogg");
+    asb->background_texture = load_room_texture(renderer, "assets/sprites/maps/asb1.png");
+    init_room_obstacles(asb->obstacles, ROOM_ASB);
+
+    asb->door_count = 2;
+    asb->doors[0] = (Door){15, 2, DOOR_TYPE_STAIRS_UP, ROOM_PITLAB, 29, 18};
+    asb->doors[1] = (Door){27, 17, DOOR_TYPE_DOOR, ROOM_CLASSROOM, 7, 7};
+
+    asb->npc_count = 2;
+
+    // Soroush
+    asb->npcs[0].x = 10;
+    asb->npcs[0].y = 10;
+    asb->npcs[0].caught = false;
+    strcpy(asb->npcs[0].name, "TA Soroush");
+    sprite_load(&asb->npcs[0].sprite, renderer, "assets/sprites/npc/Soroush.png");
+
+    // ==============================
+    // CLASSROOM
+    // ==============================
+    Room *classroom = &map->rooms[ROOM_CLASSROOM];
     classroom->id = ROOM_CLASSROOM;
     strcpy(classroom->name, "Classroom");
     strcpy(classroom->music_path, "assets/music/classroom.ogg");
+    classroom->background_texture = load_room_texture(renderer, "assets/sprites/maps/classroom1.png");
     init_room_obstacles(classroom->obstacles, ROOM_CLASSROOM);
-    
-    // Door back to main hall
+
     classroom->door_count = 1;
-    classroom->doors[0].x = 2;
-    classroom->doors[0].y = 10;
-    classroom->doors[0].type = DOOR_TYPE_DOOR;
-    classroom->doors[0].target_room = ROOM_MAIN;
-    classroom->doors[0].spawn_x = 27;  // Changed from 27 to 27 (one tile to left of door at x=28)
-    classroom->doors[0].spawn_y = 10;
-    
-    // Classroom NPCs
+    classroom->doors[0] = (Door){7, 7, DOOR_TYPE_DOOR, ROOM_ASB, 26, 17};
+
     classroom->npc_count = 1;
+
+    // Navid
     classroom->npcs[0].x = 15;
-    classroom->npcs[0].y = 8;
+    classroom->npcs[0].y = 10;
     classroom->npcs[0].caught = false;
-    strcpy(classroom->npcs[0].name, "TA Soroush");
+    strcpy(classroom->npcs[0].name, "TA Navid");
     sprite_load(&classroom->npcs[0].sprite, renderer, "assets/sprites/npc/Navid.png");
-    
+
+    // ==============================
+    // PIT LAB
+    // ==============================
+    Room *pitlab = &map->rooms[ROOM_PITLAB];
+    pitlab->id = ROOM_PITLAB;
+    strcpy(pitlab->name, "PIT Lab");
+    strcpy(pitlab->music_path, "assets/music/basement.ogg");
+    pitlab->background_texture = load_room_texture(renderer, "assets/sprites/maps/pitlab1.png");
+    init_room_obstacles(pitlab->obstacles, ROOM_PITLAB);
+
+    pitlab->door_count = 1;
+    pitlab->doors[0] = (Door){29, 18, DOOR_TYPE_STAIRS_DOWN, ROOM_ASB, 15, 3};
+
+    pitlab->npc_count = 1;
+
+    pitlab->npcs[0].x = 11;
+    pitlab->npcs[0].y = 5;
+    pitlab->npcs[0].caught = false;
+    strcpy(pitlab->npcs[0].name, "Professor Matthew");
+    sprite_load(&pitlab->npcs[0].sprite, renderer, "assets/sprites/npc/Matthew.png");
+
     printf("Map initialized with %d rooms\n", ROOM_COUNT);
 }
 
-Room* map_get_current_room(Map* map) {
+// ----------------------------------------------------
+Room *map_get_current_room(Map *map)
+{
     return &map->rooms[map->current_room_id];
 }
 
-Door* map_check_door_collision(Map* map, int player_x, int player_y) {
-    Room* current_room = map_get_current_room(map);
-    
-    for (int i = 0; i < current_room->door_count; i++) {
-        Door* door = &current_room->doors[i];
-        if (door->x == player_x && door->y == player_y) {
-            return door;
-        }
-    }
-    
+// ----------------------------------------------------
+Door *map_check_door_collision(Map *map, int px, int py)
+{
+    Room *room = map_get_current_room(map);
+
+    for (int i = 0; i < room->door_count; i++)
+        if (room->doors[i].x == px && room->doors[i].y == py)
+            return &room->doors[i];
+
     return NULL;
 }
 
-void map_transition_room(Map* map, RoomID new_room, int* player_x, int* player_y, Door* door) {
-    printf("Transitioning from %s to room %d\n", 
-           map->rooms[map->current_room_id].name, new_room);
-    
+// ----------------------------------------------------
+void map_transition_room(Map *map, RoomID new_room,
+                         int *player_x, int *player_y, Door *door)
+{
+    printf("Transitioning to %s\n", map->rooms[new_room].name);
+
     map->current_room_id = new_room;
     *player_x = door->spawn_x;
     *player_y = door->spawn_y;
-    
-    printf("Entered %s at (%d, %d)\n", 
-           map->rooms[new_room].name, *player_x, *player_y);
 }
 
-void map_cleanup(Map* map) {
-    // Cleanup all NPC sprites in all rooms
-    for (int room_idx = 0; room_idx < ROOM_COUNT; room_idx++) {
-        Room* room = &map->rooms[room_idx];
-        for (int i = 0; i < room->npc_count; i++) {
-            sprite_free(&room->npcs[i].sprite);
-        }
+// ----------------------------------------------------
+void map_render_background(Map *map, SDL_Renderer *renderer)
+{
+    Room *room = map_get_current_room(map);
+
+    if (room->background_texture)
+    {
+        SDL_Rect dest = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+        SDL_RenderCopy(renderer, room->background_texture, NULL, &dest);
     }
-    printf("Map cleanup complete\n");
+}
+
+// ----------------------------------------------------
+void map_cleanup(Map *map)
+{
+    for (int r = 0; r < ROOM_COUNT; r++)
+    {
+        Room *room = &map->rooms[r];
+
+        if (room->background_texture)
+        {
+            SDL_DestroyTexture(room->background_texture);
+            room->background_texture = NULL;
+        }
+
+        for (int i = 0; i < room->npc_count; i++)
+            sprite_free(&room->npcs[i].sprite);
+    }
+
+    IMG_Quit();
 }

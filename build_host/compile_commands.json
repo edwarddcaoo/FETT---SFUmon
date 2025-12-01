@@ -1,0 +1,98 @@
+[
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/audio.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/audio.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/audio.c",
+  "output": "hal/CMakeFiles/hal.dir/src/audio.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/button.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/button.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/button.c",
+  "output": "hal/CMakeFiles/hal.dir/src/button.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/display.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/display.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/display.c",
+  "output": "hal/CMakeFiles/hal.dir/src/display.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/joystick.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/joystick.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/joystick.c",
+  "output": "hal/CMakeFiles/hal.dir/src/joystick.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/sprite.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/sprite.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/sprite.c",
+  "output": "hal/CMakeFiles/hal.dir/src/sprite.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/hal.dir/src/storage.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/hal/src/storage.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/hal/src/storage.c",
+  "output": "hal/CMakeFiles/hal.dir/src/storage.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/catch.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/catch.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/collision.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/collision.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/game.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/game.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/game.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/game.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/input.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/input.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/main.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/main.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/main.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/main.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/map.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/map.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/map.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/map.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/music.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/music.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/music.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/music.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/npc.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/npc.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/player.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/player.c.o"
+},
+{
+  "directory": "/home/farhin/ensc351/work/FETT---SFUmon/build_host/app",
+  "command": "/usr/bin/cc  -I/home/farhin/ensc351/work/FETT---SFUmon/app/include -I/home/farhin/ensc351/work/FETT---SFUmon/hal/include -isystem /usr/include/SDL2 -std=gnu11 -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -pthread -o CMakeFiles/sfumon.dir/src/rendering.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c",
+  "file": "/home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c",
+  "output": "app/CMakeFiles/sfumon.dir/src/rendering.c.o"
+}
+]

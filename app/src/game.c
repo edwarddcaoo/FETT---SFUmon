@@ -8,6 +8,7 @@
 #include "input.h"
 #include "sound_effects.h"
 #include "music.h"
+#include "dialogue.h"
 #include "catch.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -18,22 +19,20 @@ void game_run(void)
 {
     SDL_Renderer *renderer = display_get_renderer();
 
+    // Dialogue system first
+    dialogue_init(renderer);
+
     if (!input_initialize())
-    {
         fprintf(stderr, "Warning: Failed to initialize input\n");
-    }
-
-    // Initialize audio
     if (!audio_init())
-    {
         fprintf(stderr, "Warning: Failed to initialize audio\n");
-    }
 
-    // Load sound effects
     printf("Loading sound effects...\n");
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
-    
-    // Initialize game systems
+
+    // ------------------------------------------
+    // MAP + PLAYER INITIALIZATION
+    // ------------------------------------------
     Map game_map;
     map_init(&game_map, renderer);
 
@@ -41,100 +40,192 @@ void game_run(void)
     player_init(&player, 10, 7, renderer);
 
     bool music_has_started = false;
-    
-    // Initialize pet system with counts for each pet type
-    // (bear_count, raccoon_count, deer_count, bigdeer_count)
+
+    // ------------------------------------------
+    // PET SYSTEM INITIALIZATION
+    // ------------------------------------------
     PetManager pets;
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
-    
-    // Spawn initial pets
     pet_spawn_initial(&pets, renderer);
 
-    // Initialize music 
     if (!music_init())
-    {
         fprintf(stderr, "Warning: Music initialization failed\n");
-    }
 
-    // Game state
     Uint32 last_move_time = 0;
     bool space_was_pressed = false;
     bool running = true;
     SDL_Event event;
 
-    // Game loop
     while (running)
     {
         Uint32 current_time = SDL_GetTicks();
 
-        // Start music after 12 second delay
         if (!music_has_started && current_time > 12000)
         {
             music_start_delayed();
             music_has_started = true;
         }
 
-        // Handle events
+        // ------------------------------------------
+        // EVENT LOOP
+        // ------------------------------------------
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
-            {
                 running = false;
-            }
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+
+            if (event.type == SDL_KEYDOWN)
             {
-                running = false;
+                SDL_Keycode key = event.key.keysym.sym;
+
+                // Dialogue consumes input first
+                if (dialogue_is_active())
+                {
+                    dialogue_handle_key(key);
+                    continue;
+                }
+
+                if (key == SDLK_ESCAPE)
+                    running = false;
+
+                // TALK TO NPC - T key
+                if (key == SDLK_t)
+                {
+                    Room *room = map_get_current_room(&game_map);
+
+                    for (int i = 0; i < room->npc_count; i++)
+                    {
+                        NPC *npc = &room->npcs[i];
+
+                        bool touching =
+                            (player.grid_x == npc->x && player.grid_y == npc->y - 1) ||
+                            (player.grid_x == npc->x && player.grid_y == npc->y + 1) ||
+                            (player.grid_x == npc->x - 1 && player.grid_y == npc->y) ||
+                            (player.grid_x == npc->x + 1 && player.grid_y == npc->y);
+
+                        if (!touching)
+                            continue;
+
+                        // Dialogue routes based on NPC name
+                        if (strcmp(npc->name, "TA Navid") == 0)
+                        {
+                            dialogue_set_portrait("assets/dialogue/navidDialogue.png");
+                            dialogue_start(
+                                "The bears keep attacking me!! Please help me get rid of some..\nQuest Started: Catch 5 Bears"
+                            );
+                            break;
+                        }
+
+                        if (strcmp(npc->name, "TA Soroush") == 0)
+                        {
+                            dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
+                            dialogue_start(
+                                "My lunch keeps going missing... I feel like I know the culprits. Could you help?\nQuest Started: Catch 3 Raccoons"
+                            );
+                            break;
+                        }
+
+                        if (strcmp(npc->name, "Professor Matthew") == 0)
+                        {
+                            dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
+                            dialogue_start(
+                                "Hey why are you out of class?? Nevermind.. could you help me get some deer?\nQuest Started: Catch 4 Deers"
+                            );
+                            break;
+                        }
+                    }
+                }
             }
         }
 
-        // Get current room
         Room *current_room = map_get_current_room(&game_map);
 
-        // Update music based on player position (only after music has started)
         if (music_has_started)
+            music_update(current_room,
+                         player_get_grid_x(&player),
+                         player_get_grid_y(&player));
+
+        // ------------------------------------------
+        // DIALOGUE FREEZE MODE
+        // ------------------------------------------
+        if (dialogue_is_active())
         {
-            music_update(current_room, player_get_grid_x(&player), player_get_grid_y(&player));
+            dialogue_update_typewriter();
+
+            // Draw full frame with no movement
+            display_clear(0,0,0);
+
+            map_render_background(&game_map, renderer);
+
+            // rendering_draw_obstacles(current_room->obstacles);
+            rendering_draw_doors(current_room->doors, current_room->door_count);
+
+            pet_render_all(&pets, renderer,
+                           current_room->id,
+                           player_get_grid_x(&player),
+                           player_get_grid_y(&player));
+
+            rendering_draw_npcs(current_room->npcs, current_room->npc_count);
+            rendering_draw_player(&player);
+
+            dialogue_render(renderer);
+
+            display_present();
+            SDL_Delay(FRAME_DELAY);
+            continue;
         }
 
-        // Check for catch action
+        // ------------------------------------------
+        // PET CATCHING (SPACE)
+        // ------------------------------------------
         if (input_is_catch_pressed(&space_was_pressed))
         {
-            printf("Space pressed! Checking for pets...\n");
-            
-            // Check for adjacent pets
-            Pet* pet = pet_check_adjacent(&pets, 
-                                          player_get_grid_x(&player),
-                                          player_get_grid_y(&player),
-                                          current_room->id);
-            if (pet != NULL) {
+            Pet *p = pet_check_adjacent(&pets,
+                                        player_get_grid_x(&player),
+                                        player_get_grid_y(&player),
+                                        current_room->id);
+
+            if (p != NULL)
+            {
                 audio_play_sound(SOUND_CATCH);
-                pet_catch(&pets, pet);
-                
-                // Check if we need to respawn any pets
+                pet_catch(&pets, p);
                 pet_check_respawn(&pets, renderer);
             }
         }
 
-        // Get movement input and update player
+        // ------------------------------------------
+        // PLAYER MOVEMENT
+        // ------------------------------------------
         InputDirection dir = input_get_direction();
-        player_handle_movement(&player, dir, current_room->obstacles,
-                               current_room->npcs, current_room->npc_count,
-                               current_time, &last_move_time,
-                               &pets, current_room->id);
+
+        player_handle_movement(&player, dir,
+                               current_room->obstacles,
+                               current_room->npcs,
+                               current_room->npc_count,
+                               current_time,
+                               &last_move_time,
+                               &pets,
+                               current_room->id);
+
         player_update_animation(&player);
 
-        // Check for door transitions
+        // ------------------------------------------
+        // ROOM TRANSITION
+        // ------------------------------------------
         if (!player.is_moving)
         {
             Door *door = map_check_door_collision(&game_map,
                                                   player_get_grid_x(&player),
                                                   player_get_grid_y(&player));
-            if (door != NULL) {
+
+            if (door)
+            {
                 int new_x = player.grid_x;
                 int new_y = player.grid_y;
-                map_transition_room(&game_map, door->target_room, &new_x, &new_y, door);
 
-                // Reset player position in new room
+                map_transition_room(&game_map, door->target_room,
+                                    &new_x, &new_y, door);
+
                 player.grid_x = new_x;
                 player.grid_y = new_y;
                 player.target_grid_x = new_x;
@@ -143,28 +234,40 @@ void game_run(void)
                 player.render_y = new_y * TILE_SIZE;
                 player.is_moving = false;
 
-                // Change room music
                 current_room = map_get_current_room(&game_map);
                 music_change_room(current_room->music_path);
             }
         }
 
-        // Render everything
-        display_clear(COLOR_BACKGROUND_R, COLOR_BACKGROUND_G, COLOR_BACKGROUND_B);
-        rendering_draw_obstacles(current_room->obstacles);
+        // ------------------------------------------
+        // NORMAL FRAME RENDERING
+        // ------------------------------------------
+        display_clear(0,0,0);
+
+        // Draw background FIRST
+        map_render_background(&game_map, renderer);
+
+        // Draw all gameplay layers
+        //rendering_draw_obstacles(current_room->obstacles);
         rendering_draw_doors(current_room->doors, current_room->door_count);
-        pet_render_all(&pets, renderer, current_room->id, 
-                      player_get_grid_x(&player), player_get_grid_y(&player));
+
+        pet_render_all(&pets, renderer,
+                       current_room->id,
+                       player_get_grid_x(&player),
+                       player_get_grid_y(&player));
+
         rendering_draw_npcs(current_room->npcs, current_room->npc_count);
         rendering_draw_player(&player);
-        display_present();
 
-        // Frame timing
+        display_present();
         SDL_Delay(FRAME_DELAY);
     }
 
-    // Cleanup
+    // ------------------------------------------
+    // CLEANUP
+    // ------------------------------------------
     pet_manager_cleanup(&pets);
+    dialogue_cleanup();
     input_cleanup();
     music_cleanup();
     audio_cleanup();
