@@ -8,6 +8,7 @@
 #include "input.h"
 #include "sound_effects.h"
 #include "music.h"
+#include "catch.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
@@ -39,10 +40,17 @@ void game_run(void)
     Player player;
     player_init(&player, 10, 7, renderer);
 
-    int total_caught = 0;
-    bool music_has_started = false; // Track if music has started
+    bool music_has_started = false;
+    
+    // Initialize pet system with counts for each pet type
+    // (bear_count, raccoon_count, deer_count, bigdeer_count)
+    PetManager pets;
+    pet_manager_init(&pets, renderer, 3, 3, 2, 2);
+    
+    // Spawn initial pets
+    pet_spawn_initial(&pets, renderer);
 
-    // Initialize music (but don't start playing yet)
+    // Initialize music 
     if (!music_init())
     {
         fprintf(stderr, "Warning: Music initialization failed\n");
@@ -59,8 +67,8 @@ void game_run(void)
     {
         Uint32 current_time = SDL_GetTicks();
 
-        // Start music after 300ms delay to let game render first
-        if (!music_has_started && current_time > 10000)
+        // Start music after 12 second delay
+        if (!music_has_started && current_time > 12000)
         {
             music_start_delayed();
             music_has_started = true;
@@ -88,25 +96,31 @@ void game_run(void)
             music_update(current_room, player_get_grid_x(&player), player_get_grid_y(&player));
         }
 
-        // Handle input
-        // const Uint8 *keyboard_state = SDL_GetKeyboardState(NULL);
-
         // Check for catch action
         if (input_is_catch_pressed(&space_was_pressed))
         {
-            printf("Space pressed! Checking for professors...\n");
+            printf("Space pressed! Checking for pets...\n");
             
-            // Then check if actually caught
-            npc_try_catch(current_room->npcs, current_room->npc_count,
-                          player_get_grid_x(&player),
-                          player_get_grid_y(&player), &total_caught);
+            // Check for adjacent pets
+            Pet* pet = pet_check_adjacent(&pets, 
+                                          player_get_grid_x(&player),
+                                          player_get_grid_y(&player),
+                                          current_room->id);
+            if (pet != NULL) {
+                audio_play_sound(SOUND_CATCH);
+                pet_catch(&pets, pet);
+                
+                // Check if we need to respawn any pets
+                pet_check_respawn(&pets, renderer);
+            }
         }
 
         // Get movement input and update player
         InputDirection dir = input_get_direction();
         player_handle_movement(&player, dir, current_room->obstacles,
                                current_room->npcs, current_room->npc_count,
-                               current_time, &last_move_time);
+                               current_time, &last_move_time,
+                               &pets, current_room->id);
         player_update_animation(&player);
 
         // Check for door transitions
@@ -139,9 +153,9 @@ void game_run(void)
         display_clear(COLOR_BACKGROUND_R, COLOR_BACKGROUND_G, COLOR_BACKGROUND_B);
         rendering_draw_obstacles(current_room->obstacles);
         rendering_draw_doors(current_room->doors, current_room->door_count);
-        rendering_draw_npcs(current_room->npcs, current_room->npc_count,
-                            player_get_grid_x(&player),
-                            player_get_grid_y(&player));
+        pet_render_all(&pets, renderer, current_room->id, 
+                      player_get_grid_x(&player), player_get_grid_y(&player));
+        rendering_draw_npcs(current_room->npcs, current_room->npc_count);
         rendering_draw_player(&player);
         display_present();
 
@@ -150,6 +164,7 @@ void game_run(void)
     }
 
     // Cleanup
+    pet_manager_cleanup(&pets);
     input_cleanup();
     music_cleanup();
     audio_cleanup();
@@ -157,5 +172,5 @@ void game_run(void)
     player_cleanup(&player);
 
     printf("\n=== Game Over! ===\n");
-    printf("You caught %d professors total.\n", total_caught);
+    printf("Pets caught: %d/%d\n", pet_get_total_caught(&pets), pets.count);
 }
