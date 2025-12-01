@@ -3,6 +3,7 @@
 # Manually list source files to compile (add more as you implement them)
 set(APP_SOURCES
     #src/catch.c
+    #src/camera.c
     src/collision.c
     #src/game_state.c
     src/game.c

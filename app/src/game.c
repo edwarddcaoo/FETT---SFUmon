@@ -31,7 +31,7 @@ void game_run(void)
     // Load sound effects
     printf("Loading sound effects...\n");
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
-    
+
     // Initialize game systems
     Map game_map;
     map_init(&game_map, renderer);
@@ -88,14 +88,11 @@ void game_run(void)
             music_update(current_room, player_get_grid_x(&player), player_get_grid_y(&player));
         }
 
-        // Handle input
-        // const Uint8 *keyboard_state = SDL_GetKeyboardState(NULL);
-
         // Check for catch action
         if (input_is_catch_pressed(&space_was_pressed))
         {
             printf("Space pressed! Checking for professors...\n");
-            
+
             // Then check if actually caught
             npc_try_catch(current_room->npcs, current_room->npc_count,
                           player_get_grid_x(&player),
@@ -115,7 +112,8 @@ void game_run(void)
             Door *door = map_check_door_collision(&game_map,
                                                   player_get_grid_x(&player),
                                                   player_get_grid_y(&player));
-            if (door != NULL) {
+            if (door != NULL)
+            {
                 int new_x = player.grid_x;
                 int new_y = player.grid_y;
                 map_transition_room(&game_map, door->target_room, &new_x, &new_y, door);
@@ -137,7 +135,10 @@ void game_run(void)
 
         // Render everything
         display_clear(COLOR_BACKGROUND_R, COLOR_BACKGROUND_G, COLOR_BACKGROUND_B);
-        rendering_draw_obstacles(current_room->obstacles);
+        //  OLD RENDER
+        map_render_background(&game_map, renderer);
+        // rendering_draw_obstacles(current_room->obstacles);
+        map_render_debug_grid(renderer);
         rendering_draw_doors(current_room->doors, current_room->door_count);
         rendering_draw_npcs(current_room->npcs, current_room->npc_count,
                             player_get_grid_x(&player),

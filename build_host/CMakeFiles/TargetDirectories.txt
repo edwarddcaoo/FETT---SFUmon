@@ -1,0 +1,8 @@
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles/edit_cache.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles/rebuild_cache.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal/CMakeFiles/hal.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal/CMakeFiles/edit_cache.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/hal/CMakeFiles/rebuild_cache.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/app/CMakeFiles/sfumon.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/app/CMakeFiles/edit_cache.dir
+/home/farhin/ensc351/work/FETT---SFUmon/build_host/app/CMakeFiles/rebuild_cache.dir
