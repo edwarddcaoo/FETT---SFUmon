@@ -56,6 +56,8 @@ bool display_init(const char *title, int width, int height)
     else
     {
         printf("Host machine detected - using windowed mode\n");
+        window_w = 800;
+        window_h = 480;
     }
 
     window = SDL_CreateWindow(

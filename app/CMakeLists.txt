@@ -14,7 +14,11 @@ set(APP_SOURCES
     src/npc.c
     src/player.c
     src/rendering.c
+    src/dialogue.c
 )
+
+# ADD THIS — find the SDL2_ttf library
+find_package(SDL2_ttf REQUIRED)
 
 # Create executable
 add_executable(sfumon ${APP_SOURCES})
@@ -22,26 +26,23 @@ add_executable(sfumon ${APP_SOURCES})
 # Make headers available to app source files
 target_include_directories(sfumon PRIVATE include)
 
-# Link HAL library (which includes SDL2, SDL2_image, SDL2_mixer, gpiod)
-target_link_libraries(sfumon PRIVATE hal pthread)
+# Link HAL library + SDL2_ttf
+target_link_libraries(sfumon PRIVATE hal pthread SDL2_ttf)
 
-# Copy executable and assets to final location (only for cross-compilation)
+# Copy executable and assets to final location (etc...)
 if(CMAKE_CROSSCOMPILING)
-    # Copy executable
     add_custom_command(TARGET sfumon POST_BUILD 
         COMMAND "${CMAKE_COMMAND}" -E copy 
             "$<TARGET_FILE:sfumon>"
             "$ENV{HOME}/ensc351/public/sfumon/sfumon" 
         COMMENT "Copying ARM executable to public NFS directory")
     
-    # Copy assets folder (PNGs, maps, music)
     add_custom_command(TARGET sfumon POST_BUILD 
         COMMAND "${CMAKE_COMMAND}" -E copy_directory
             "${CMAKE_SOURCE_DIR}/assets" 
             "$ENV{HOME}/ensc351/public/sfumon/assets"
         COMMENT "Copying assets (images, maps, music) to public NFS directory")
 else()
-    # For native development, copy assets to build directory
     add_custom_command(TARGET sfumon POST_BUILD 
         COMMAND "${CMAKE_COMMAND}" -E copy_directory
             "${CMAKE_SOURCE_DIR}/assets" 
