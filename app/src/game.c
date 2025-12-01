@@ -172,5 +172,4 @@ void game_run(void)
     player_cleanup(&player);
 
     printf("\n=== Game Over! ===\n");
-    printf("Pets caught: %d/%d\n", pet_get_total_caught(&pets), pets.count);
 }
