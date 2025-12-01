@@ -20,6 +20,45 @@ static const char* PET_NAMES[] = {
     "Big Deer"
 };
 
+// Helper function to check if a position is valid (not an obstacle)
+static bool is_valid_spawn_position(Map* map, int x, int y, int room_id) {
+    if (x < 0 || x >= GRID_WIDTH || y < 0 || y >= GRID_HEIGHT) {
+        return false;
+    }
+    
+    Room* room = &map->rooms[room_id];
+    return room->obstacles[y][x] == 0;
+}
+
+// Helper function to find a random valid spawn position
+static bool find_random_spawn_position(Map* map, int room_id, int* out_x, int* out_y) {
+    const int MAX_ATTEMPTS = 100;
+    
+    for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+        int x = 2 + (rand() % (GRID_WIDTH - 4));
+        int y = 2 + (rand() % (GRID_HEIGHT - 4));
+        
+        if (is_valid_spawn_position(map, x, y, room_id)) {
+            *out_x = x;
+            *out_y = y;
+            return true;
+        }
+    }
+    
+    // If random attempts fail, do a systematic search
+    for (int y = 2; y < GRID_HEIGHT - 2; y++) {
+        for (int x = 2; x < GRID_WIDTH - 2; x++) {
+            if (is_valid_spawn_position(map, x, y, room_id)) {
+                *out_x = x;
+                *out_y = y;
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 void pet_manager_init(PetManager* manager, SDL_Renderer* renderer,
                       int bear_count, int raccoon_count, int deer_count, int bigdeer_count) {
     (void)renderer; // Will be used in pet_spawn_initial
@@ -44,7 +83,7 @@ void pet_manager_init(PetManager* manager, SDL_Renderer* renderer,
            bear_count, raccoon_count, deer_count, bigdeer_count);
 }
 
-void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer) {
+void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer, Map* map) {
     printf("Pet Manager: Spawning initial pets...\n");
     
     // Spawn each pet type according to target counts
@@ -58,8 +97,14 @@ void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer) {
             Pet* pet = &manager->pets[manager->count];
             pet->type = (PetType)type;
             pet->room_id = rand() % 3; // Random room (0, 1, or 2)
-            pet->x = 2 + (rand() % (GRID_WIDTH - 4));
-            pet->y = 2 + (rand() % (GRID_HEIGHT - 4));
+            
+            // Find a valid spawn position that's not on an obstacle
+            if (!find_random_spawn_position(map, pet->room_id, &pet->x, &pet->y)) {
+                fprintf(stderr, "Pet Manager: Failed to find valid spawn position for %s in room %d\n", 
+                        PET_NAMES[type], pet->room_id);
+                continue;
+            }
+            
             pet->id = manager->count;
             pet->caught = false;
             
@@ -79,7 +124,7 @@ void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer) {
     printf("Pet Manager: Spawned %d pets total\n", manager->count);
 }
 
-void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer) {
+void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer, Map* map) {
     // Count how many of each type are currently active (not caught)
     int active_counts[PET_TYPE_COUNT] = {0};
     
@@ -121,10 +166,15 @@ void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer) {
             }
             
             if (pet) {
-                // Respawn at random location
+                // Respawn at random location (avoiding obstacles)
                 pet->room_id = rand() % 3;
-                pet->x = 2 + (rand() % (GRID_WIDTH - 4));
-                pet->y = 2 + (rand() % (GRID_HEIGHT - 4));
+                
+                if (!find_random_spawn_position(map, pet->room_id, &pet->x, &pet->y)) {
+                    fprintf(stderr, "Pet Manager: Failed to find valid respawn position for %s in room %d\n", 
+                            PET_NAMES[type], pet->room_id);
+                    continue;
+                }
+                
                 pet->caught = false;
                 
                 printf("↻ Respawned %s at (%d, %d) in room %d\n", 

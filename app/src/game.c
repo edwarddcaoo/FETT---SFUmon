@@ -47,7 +47,7 @@ void game_run(void)
     // ------------------------------------------
     PetManager pets;
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
-    pet_spawn_initial(&pets, renderer);
+    pet_spawn_initial(&pets, renderer, &game_map); // Added &game_map
 
     // ------------------------------------------
     // QUEST MANAGER INITIALIZATION
@@ -229,7 +229,7 @@ void game_run(void)
                 PetType caught_type = p->type;
 
                 pet_catch(&pets, p);
-                pet_check_respawn(&pets, renderer);
+                pet_check_respawn(&pets, renderer, &game_map); // Added &game_map
 
                 // UPDATE QUESTS
                 quest_on_catch(&quests, caught_type);
@@ -334,7 +334,4 @@ void game_run(void)
     player_cleanup(&player);
 
     printf("\n=== Game Over! ===\n");
-    printf("Pets caught: %d/%d\n",
-           pet_get_total_caught(&pets),
-           pets.count);
 }
