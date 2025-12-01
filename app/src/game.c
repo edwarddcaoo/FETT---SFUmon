@@ -46,7 +46,7 @@ void game_run(void)
     // ------------------------------------------
     PetManager pets;
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
-    pet_spawn_initial(&pets, renderer);
+    pet_spawn_initial(&pets, renderer, &game_map);  // Added &game_map
 
     if (!music_init())
         fprintf(stderr, "Warning: Music initialization failed\n");
@@ -189,7 +189,7 @@ void game_run(void)
             {
                 audio_play_sound(SOUND_CATCH);
                 pet_catch(&pets, p);
-                pet_check_respawn(&pets, renderer);
+                pet_check_respawn(&pets, renderer, &game_map);  // Added &game_map
             }
         }
 

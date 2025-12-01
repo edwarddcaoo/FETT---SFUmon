@@ -1,9 +1,9 @@
 #ifndef CATCH_H
 #define CATCH_H
-
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include "hal/sprite.h"
+#include "map.h"  
 
 #define MAX_PETS 20
 
@@ -39,10 +39,10 @@ void pet_manager_init(PetManager* manager, SDL_Renderer* renderer,
                       int bear_count, int raccoon_count, int deer_count, int bigdeer_count);
 
 // Spawn initial pets based on target counts
-void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer);
+void pet_spawn_initial(PetManager* manager, SDL_Renderer* renderer, Map* map);
 
 // Check and respawn pets to maintain target counts
-void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer);
+void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer, Map* map);
 
 // Check if player can catch a pet at this position
 Pet* pet_check_adjacent(PetManager* manager, int player_x, int player_y, int room_id);
