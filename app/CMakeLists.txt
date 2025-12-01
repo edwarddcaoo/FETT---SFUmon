@@ -17,8 +17,6 @@ set(APP_SOURCES
     src/dialogue.c
 )
 
-# ADD THIS — find the SDL2_ttf library
-find_package(SDL2_ttf REQUIRED)
 
 # Create executable
 add_executable(sfumon ${APP_SOURCES})

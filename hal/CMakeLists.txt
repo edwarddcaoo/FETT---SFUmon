@@ -25,6 +25,7 @@ target_link_libraries(hal PUBLIC
     SDL2::SDL2 
     SDL2_image::SDL2_image
     ${SDL2_MIXER_LIBRARIES}
+    ${SDL2_TTF_LIBRARIES}
 )
 
 # Tell the linker where to search for libraries

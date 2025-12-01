@@ -212,6 +212,20 @@ app/CMakeFiles/sfumon.dir/src/rendering.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/sfumon.dir/src/rendering.c.s"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c -o CMakeFiles/sfumon.dir/src/rendering.c.s
 
+app/CMakeFiles/sfumon.dir/src/dialogue.c.o: app/CMakeFiles/sfumon.dir/flags.make
+app/CMakeFiles/sfumon.dir/src/dialogue.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c
+app/CMakeFiles/sfumon.dir/src/dialogue.c.o: app/CMakeFiles/sfumon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object app/CMakeFiles/sfumon.dir/src/dialogue.c.o"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT app/CMakeFiles/sfumon.dir/src/dialogue.c.o -MF CMakeFiles/sfumon.dir/src/dialogue.c.o.d -o CMakeFiles/sfumon.dir/src/dialogue.c.o -c /home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c
+
+app/CMakeFiles/sfumon.dir/src/dialogue.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/sfumon.dir/src/dialogue.c.i"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c > CMakeFiles/sfumon.dir/src/dialogue.c.i
+
+app/CMakeFiles/sfumon.dir/src/dialogue.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/sfumon.dir/src/dialogue.c.s"
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/farhin/ensc351/work/FETT---SFUmon/app/src/dialogue.c -o CMakeFiles/sfumon.dir/src/dialogue.c.s
+
 # Object files for target sfumon
 sfumon_OBJECTS = \
 "CMakeFiles/sfumon.dir/src/catch.c.o" \
@@ -223,7 +237,8 @@ sfumon_OBJECTS = \
 "CMakeFiles/sfumon.dir/src/music.c.o" \
 "CMakeFiles/sfumon.dir/src/npc.c.o" \
 "CMakeFiles/sfumon.dir/src/player.c.o" \
-"CMakeFiles/sfumon.dir/src/rendering.c.o"
+"CMakeFiles/sfumon.dir/src/rendering.c.o" \
+"CMakeFiles/sfumon.dir/src/dialogue.c.o"
 
 # External object files for target sfumon
 sfumon_EXTERNAL_OBJECTS =
@@ -238,13 +253,14 @@ app/sfumon: app/CMakeFiles/sfumon.dir/src/music.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/npc.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/player.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/src/rendering.c.o
+app/sfumon: app/CMakeFiles/sfumon.dir/src/dialogue.c.o
 app/sfumon: app/CMakeFiles/sfumon.dir/build.make
 app/sfumon: app/CMakeFiles/sfumon.dir/compiler_depend.ts
 app/sfumon: hal/libhal.a
 app/sfumon: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
 app/sfumon: /usr/lib/x86_64-linux-gnu/libSDL2_mixer.so
 app/sfumon: app/CMakeFiles/sfumon.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking C executable sfumon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farhin/ensc351/work/FETT---SFUmon/build_host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking C executable sfumon"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sfumon.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying assets to build directory for local testing"
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host/app && /usr/bin/cmake -E copy_directory /home/farhin/ensc351/work/FETT---SFUmon/assets /home/farhin/ensc351/work/FETT---SFUmon/build_host/app/assets

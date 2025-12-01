@@ -107,6 +107,23 @@ else()
     message(STATUS "SDL2_mixer Library (native): ${SDL2_MIXER_LIBRARIES}")
 endif()
 
+# SDL2_ttf Configuration
+if(CMAKE_CROSSCOMPILING)
+    # Cross-compilation: Manually set paths from sysroot
+    set(SDL2_TTF_LIBRARIES "${BEAGLE_SYSROOT}/lib/libSDL2_ttf.so" CACHE STRING "SDL2_ttf library")
+    
+    if(NOT EXISTS "${SDL2_TTF_LIBRARIES}")
+        message(WARNING "SDL2_ttf library not found at: ${SDL2_TTF_LIBRARIES}")
+        message(WARNING "You may need to install libsdl2-ttf-dev on your target sysroot")
+    endif()
+    
+    message(STATUS "SDL2_ttf Library (cross): ${SDL2_TTF_LIBRARIES}")
+else()
+    # Native compilation
+    find_package(SDL2_ttf REQUIRED)
+    message(STATUS "SDL2_ttf found (native)")
+endif()
+
 # gpiod Configuration
 if(CMAKE_CROSSCOMPILING)
     # Use values provided by toolchain file (FULL PATHS)

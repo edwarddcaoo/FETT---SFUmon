@@ -4,6 +4,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/sfumon.dir/src/catch.c.o.d"
   "CMakeFiles/sfumon.dir/src/collision.c.o"
   "CMakeFiles/sfumon.dir/src/collision.c.o.d"
+  "CMakeFiles/sfumon.dir/src/dialogue.c.o"
+  "CMakeFiles/sfumon.dir/src/dialogue.c.o.d"
   "CMakeFiles/sfumon.dir/src/game.c.o"
   "CMakeFiles/sfumon.dir/src/game.c.o.d"
   "CMakeFiles/sfumon.dir/src/input.c.o"

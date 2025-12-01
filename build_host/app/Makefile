@@ -178,6 +178,30 @@ src/collision.c.s:
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/collision.c.s
 .PHONY : src/collision.c.s
 
+src/dialogue.o: src/dialogue.c.o
+.PHONY : src/dialogue.o
+
+# target to build an object file
+src/dialogue.c.o:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/dialogue.c.o
+.PHONY : src/dialogue.c.o
+
+src/dialogue.i: src/dialogue.c.i
+.PHONY : src/dialogue.i
+
+# target to preprocess a source file
+src/dialogue.c.i:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/dialogue.c.i
+.PHONY : src/dialogue.c.i
+
+src/dialogue.s: src/dialogue.c.s
+.PHONY : src/dialogue.s
+
+# target to generate assembly for a file
+src/dialogue.c.s:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/dialogue.c.s
+.PHONY : src/dialogue.c.s
+
 src/game.o: src/game.c.o
 .PHONY : src/game.o
 
@@ -385,6 +409,9 @@ help:
 	@echo "... src/collision.o"
 	@echo "... src/collision.i"
 	@echo "... src/collision.s"
+	@echo "... src/dialogue.o"
+	@echo "... src/dialogue.i"
+	@echo "... src/dialogue.s"
 	@echo "... src/game.o"
 	@echo "... src/game.i"
 	@echo "... src/game.s"
