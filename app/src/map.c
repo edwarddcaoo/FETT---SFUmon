@@ -34,24 +34,19 @@ void map_render_debug_grid(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 128);
 
     for (int x = 0; x <= GRID_WIDTH; x++)
-    {
         SDL_RenderDrawLine(renderer, x * TILE_SIZE, 0,
                            x * TILE_SIZE, WINDOW_HEIGHT);
-    }
 
     for (int y = 0; y <= GRID_HEIGHT; y++)
-    {
         SDL_RenderDrawLine(renderer, 0, y * TILE_SIZE,
                            WINDOW_WIDTH, y * TILE_SIZE);
-    }
 }
 
 // ----------------------------------------------------
-// Obstacles (HEAD VERSION ONLY)
+// Obstacles
 // ----------------------------------------------------
 static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID room_id)
 {
-    // Clear all
     for (int y = 0; y < GRID_HEIGHT; y++)
         for (int x = 0; x < GRID_WIDTH; x++)
             obstacles[y][x] = 0;
@@ -59,9 +54,10 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
     switch (room_id)
     {
     // ------------------------------------------------
-    // ASB ROOM
+    // ASB
     // ------------------------------------------------
     case ROOM_ASB:
+
         // Table 1
         for (int x = 9; x <= 11; x++)
             for (int y = 6; y <= 7; y++)
@@ -82,7 +78,7 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
             for (int y = 16; y <= 18; y++)
                 obstacles[y][x] = 1;
 
-        // White table/couch
+        // White couch
         for (int x = 13; x <= 16; x++)
             for (int y = 4; y <= 6; y++)
                 obstacles[y][x] = 1;
@@ -96,10 +92,11 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
         obstacles[12][13] = 1;
         for (int x = 12; x <= 15; x++) obstacles[13][x] = 1;
         for (int x = 13; x <= 16; x++) obstacles[14][x] = 1;
+
         break;
 
     // ------------------------------------------------
-    // CLASSROOM ROOM
+    // CLASSROOM
     // ------------------------------------------------
     case ROOM_CLASSROOM:
 
@@ -111,7 +108,7 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
         for (int x = 0; x <= 6; x++) obstacles[7][x] = 1;
         for (int x = 8; x <= 29; x++) obstacles[7][x] = 1;
 
-        // U table (left, bottom, right)
+        // U table
         for (int x = 9; x <= 11; x++)
             for (int y = 10; y <= 18; y++)
                 obstacles[y][x] = 1;
@@ -131,12 +128,10 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
         obstacles[19][10] = 1;
         obstacles[19][11] = 1;
 
-        // Side table
         for (int x = 21; x <= 23; x++)
             for (int y = 14; y <= 18; y++)
                 obstacles[y][x] = 1;
 
-        // Random chair
         obstacles[15][19] = 1;
         obstacles[16][19] = 1;
         obstacles[11][19] = 1;
@@ -152,23 +147,18 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
     // ------------------------------------------------
     case ROOM_PITLAB:
 
-        // Top tables
         for (int x = 7; x <= 9; x++) obstacles[1][x] = 1;
         for (int x = 12; x <= 17; x++) obstacles[1][x] = 1;
         for (int x = 21; x <= 23; x++) obstacles[1][x] = 1;
 
-        // Left column
         for (int y = 2; y <= 18; y++) obstacles[y][7] = 1;
 
-        // Middle column
         for (int x = 14; x <= 15; x++)
             for (int y = 2; y <= 18; y++)
                 obstacles[y][x] = 1;
 
-        // Right column
         for (int y = 2; y <= 18; y++) obstacles[y][23] = 1;
 
-        // Random chairs sets
         int chairs[][2] = {
             {3,8},{4,8},{6,8},{7,8},{12,8},{13,8},
             {3,13},{4,13},{6,13},{7,13},{12,13},{13,13},
@@ -186,18 +176,16 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
 }
 
 // ----------------------------------------------------
-// MAP INIT (HEAD VERSION ONLY)
+// MAP INIT
 // ----------------------------------------------------
 void map_init(Map *map, SDL_Renderer *renderer)
 {
-    int img_flags = IMG_INIT_PNG;
-    if (!(IMG_Init(img_flags) & img_flags))
-        fprintf(stderr, "SDL_image init failed: %s\n", IMG_GetError());
+    IMG_Init(IMG_INIT_PNG);
 
     map->current_room_id = ROOM_ASB;
 
     // ==============================
-    // ASB ROOM
+    // ASB
     // ==============================
     Room *asb = &map->rooms[ROOM_ASB];
     asb->id = ROOM_ASB;
@@ -207,23 +195,17 @@ void map_init(Map *map, SDL_Renderer *renderer)
     init_room_obstacles(asb->obstacles, ROOM_ASB);
 
     asb->door_count = 2;
-
     asb->doors[0] = (Door){15, 2, DOOR_TYPE_STAIRS_UP, ROOM_PITLAB, 29, 18};
     asb->doors[1] = (Door){27, 17, DOOR_TYPE_DOOR, ROOM_CLASSROOM, 7, 7};
 
-    asb->npc_count = 1;
+    asb->npc_count = 2;
+
+    // Soroush
     asb->npcs[0].x = 10;
     asb->npcs[0].y = 10;
     asb->npcs[0].caught = false;
     strcpy(asb->npcs[0].name, "TA Soroush");
     sprite_load(&asb->npcs[0].sprite, renderer, "assets/sprites/npc/Soroush.png");
-
-    asb->npcs[1].x = 20;
-    asb->npcs[1].y = 10;
-    asb->npcs[1].caught = false;
-    strcpy(asb->npcs[1].name, "TA Navid");
-    sprite_load(&asb->npcs[1].sprite, renderer, "assets/sprites/npc/Navid.png");
-
 
     // ==============================
     // CLASSROOM
@@ -239,12 +221,13 @@ void map_init(Map *map, SDL_Renderer *renderer)
     classroom->doors[0] = (Door){7, 7, DOOR_TYPE_DOOR, ROOM_ASB, 26, 17};
 
     classroom->npc_count = 1;
+
+    // Navid
     classroom->npcs[0].x = 15;
     classroom->npcs[0].y = 10;
     classroom->npcs[0].caught = false;
-    strcpy(classroom->npcs[0].name, "TA Soroush");
+    strcpy(classroom->npcs[0].name, "TA Navid");
     sprite_load(&classroom->npcs[0].sprite, renderer, "assets/sprites/npc/Navid.png");
-
 
     // ==============================
     // PIT LAB
@@ -260,6 +243,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     pitlab->doors[0] = (Door){29, 18, DOOR_TYPE_STAIRS_DOWN, ROOM_ASB, 15, 3};
 
     pitlab->npc_count = 1;
+
     pitlab->npcs[0].x = 11;
     pitlab->npcs[0].y = 5;
     pitlab->npcs[0].caught = false;
