@@ -30,30 +30,6 @@ void npc_init_all(NPC* npcs, int* count, SDL_Renderer* renderer) {
     sprite_load(&npcs[2].sprite, renderer, "assets/sprites/npc/Soroush.png");
 }
 
-bool npc_try_catch(NPC* npcs, int count, int player_x, int player_y, int* total_caught) {
-    bool caught_someone = false;
-    
-    for (int i = 0; i < count; i++) {
-        if (!npcs[i].caught) {
-            int dx = abs(player_x - npcs[i].x);
-            int dy = abs(player_y - npcs[i].y);
-            
-            if ((dx == 1 && dy == 0) || (dx == 0 && dy == 1)) {
-                npcs[i].caught = true;
-                (*total_caught)++;
-                printf("*** Caught %s! Total: %d/%d ***\n", npcs[i].name, *total_caught, count);
-
-                // Play success sound
-                audio_play_sound(SOUND_CATCH);
-
-                caught_someone = true;
-            }
-        }
-    }
-    
-    return caught_someone;
-}
-
 void npc_cleanup_all(NPC* npcs, int count) {
     for (int i = 0; i < count; i++) {
         sprite_free(&npcs[i].sprite);

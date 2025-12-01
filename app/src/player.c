@@ -1,6 +1,7 @@
 #include "player.h"
 #include "common.h"
 #include "npc.h"
+#include "catch.h"
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -28,17 +29,17 @@ void player_init(Player *player, int start_x, int start_y, SDL_Renderer *rendere
         if (!sprite_load(&player->sprites[i], renderer, sprite_paths[i]))
         {
             fprintf(stderr, "Player: Failed to load sprite %d from %s\n", i, sprite_paths[i]);
-            // Continue anyway - might want to handle this better
         }
     }
 }
 
 void player_handle_movement(Player *player, InputDirection dir,
                             int obstacles[][GRID_WIDTH], void *npcs_ptr, int npc_count,
-                            unsigned int current_time, unsigned int *last_move_time)
+                            unsigned int current_time, unsigned int *last_move_time,
+                            void *pets_ptr, int current_room_id)
 {
-
     NPC *npcs = (NPC *)npcs_ptr;
+    PetManager *pets = (PetManager *)pets_ptr;
 
     if (!player->is_moving && current_time - *last_move_time > MOVE_DELAY)
     {
@@ -87,14 +88,17 @@ void player_handle_movement(Player *player, InputDirection dir,
                     break;
                 }
             }
+            
+            // Check if pet blocks the tile
+            bool pet_blocking = pet_blocks_movement(pets, new_x, new_y, current_room_id);
 
             // Validate move
             if (new_x >= 0 && new_x < GRID_WIDTH &&
                 new_y >= 0 && new_y < GRID_HEIGHT &&
                 obstacles[new_y][new_x] == 0 &&
-                !professor_blocking)
+                !professor_blocking &&
+                !pet_blocking)
             {
-
                 player->target_grid_x = new_x;
                 player->target_grid_y = new_y;
                 player->is_moving = true;
@@ -164,7 +168,6 @@ void player_render(Player *player, SDL_Renderer *renderer)
         return;
     }
 
-    // Render the sprite for the current direction at the current render position
     sprite_render(&player->sprites[player->current_direction], renderer,
                   (int)player->render_x, (int)player->render_y);
 }
@@ -176,7 +179,6 @@ void player_cleanup(Player *player)
         return;
     }
 
-    // Free all sprites
     for (int i = 0; i < DIR_COUNT; i++)
     {
         sprite_free(&player->sprites[i]);

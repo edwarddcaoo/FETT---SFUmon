@@ -7,7 +7,7 @@
 #include "map.h"
 
 void rendering_draw_obstacles(int obstacles[][GRID_WIDTH]);
-void rendering_draw_npcs(NPC *npcs, int count, int player_x, int player_y);
+void rendering_draw_npcs(NPC *npcs, int count);
 void rendering_draw_player(Player *player);
 void rendering_draw_doors(Door *doors, int door_count);
 

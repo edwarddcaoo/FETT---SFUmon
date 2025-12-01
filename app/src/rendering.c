@@ -18,7 +18,7 @@
 //     }
 // }
 
-void rendering_draw_npcs(NPC *npcs, int count, int player_x, int player_y)
+void rendering_draw_npcs(NPC *npcs, int count)
 {
     SDL_Renderer *renderer = display_get_renderer();
 
@@ -26,23 +26,8 @@ void rendering_draw_npcs(NPC *npcs, int count, int player_x, int player_y)
     {
         if (!npcs[i].caught)
         {
-            int dx = abs(player_x - npcs[i].x);
-            int dy = abs(player_y - npcs[i].y);
-            bool is_adjacent = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
 
-            // Draw white highlight if catchable
-            if (is_adjacent)
-            {
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                SDL_Rect highlight = {
-                    npcs[i].x * TILE_SIZE - 2,
-                    npcs[i].y * TILE_SIZE - 2,
-                    TILE_SIZE + 4,
-                    TILE_SIZE + 4};
-                SDL_RenderFillRect(renderer, &highlight);
-            }
-
-            // Draw the NPC sprite
+            // Just render the NPC sprite (no highlight, no interaction)
             sprite_render(&npcs[i].sprite, renderer,
                           npcs[i].x * TILE_SIZE,
                           npcs[i].y * TILE_SIZE);
