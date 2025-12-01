@@ -15,6 +15,7 @@ set(APP_SOURCES
     src/player.c
     src/rendering.c
     src/dialogue.c
+    src/rendering_ui.c
 )
 
 # ADD THIS — find the SDL2_ttf library

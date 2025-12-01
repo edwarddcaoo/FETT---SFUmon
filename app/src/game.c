@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <rendering_ui.h>
+#include <SDL2/SDL_ttf.h>
 
 void game_run(void)
 {
@@ -29,6 +31,10 @@ void game_run(void)
 
     printf("Loading sound effects...\n");
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
+
+    if (TTF_Init() == -1) {
+        fprintf(stderr, "Warning: Failed to initialize SDL_ttf: %s\n", TTF_GetError());
+    }   
 
     // ------------------------------------------
     // MAP + PLAYER INITIALIZATION
@@ -46,7 +52,11 @@ void game_run(void)
     // ------------------------------------------
     PetManager pets;
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
-    pet_spawn_initial(&pets, renderer, &game_map);  // Added &game_map
+    pet_spawn_initial(&pets, renderer, &game_map);
+
+    if (!rendering_ui_init()) {
+        fprintf(stderr, "Warning: Failed to initialize UI rendering\n");
+    }
 
     if (!music_init())
         fprintf(stderr, "Warning: Music initialization failed\n");
@@ -73,7 +83,17 @@ void game_run(void)
         {
             if (event.type == SDL_QUIT)
                 running = false;
-
+            
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    int mouse_x = event.button.x;
+                    int mouse_y = event.button.y;
+        
+                    if (rendering_ui_check_reset_click(mouse_x, mouse_y)) {
+                        rendering_ui_reset_catches(&pets);
+                    }
+                }
+            }
             if (event.type == SDL_KEYDOWN)
             {
                 SDL_Keycode key = event.key.keysym.sym;
@@ -157,7 +177,6 @@ void game_run(void)
 
             map_render_background(&game_map, renderer);
 
-            // rendering_draw_obstacles(current_room->obstacles);
             rendering_draw_doors(current_room->doors, current_room->door_count);
 
             pet_render_all(&pets, renderer,
@@ -168,6 +187,7 @@ void game_run(void)
             rendering_draw_npcs(current_room->npcs, current_room->npc_count);
             rendering_draw_player(&player);
 
+            rendering_ui_draw_hud(&pets);
             dialogue_render(renderer);
 
             display_present();
@@ -188,8 +208,9 @@ void game_run(void)
             if (p != NULL)
             {
                 audio_play_sound(SOUND_CATCH);
+                rendering_ui_increment_catch(p->type);  // <-- ADD THIS LINE
                 pet_catch(&pets, p);
-                pet_check_respawn(&pets, renderer, &game_map);  // Added &game_map
+                pet_check_respawn(&pets, renderer, &game_map);
             }
         }
 
@@ -259,6 +280,9 @@ void game_run(void)
         rendering_draw_npcs(current_room->npcs, current_room->npc_count);
         rendering_draw_player(&player);
 
+        // Draw UI HUD (inventory and reset button)
+        rendering_ui_draw_hud(&pets);
+
         display_present();
         SDL_Delay(FRAME_DELAY);
     }
@@ -267,6 +291,8 @@ void game_run(void)
     // CLEANUP
     // ------------------------------------------
     pet_manager_cleanup(&pets);
+    rendering_ui_cleanup();
+    TTF_Quit();
     dialogue_cleanup();
     input_cleanup();
     music_cleanup();
