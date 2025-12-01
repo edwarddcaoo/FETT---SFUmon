@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "button.h": "c"
+        "button.h": "c",
+        "input.h": "c",
+        "stdio.h": "c",
+        "sdl_ttf.h": "c"
     }
 }

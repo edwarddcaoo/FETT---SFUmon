@@ -16,8 +16,10 @@ typedef struct
     Uint32 last_char_time;
 
     SDL_Texture *texture;
-    SDL_Renderer *renderer;   // store renderer
-    TTF_Font *font;           // needs SDL_ttf.h
+    SDL_Renderer *renderer;
+
+    TTF_Font *font;        // dialogue font
+    TTF_Font *quest_font;  // ⭐ NEW — quest UI font
 } Dialogue;
 
 extern Dialogue g_dialogue;
@@ -30,5 +32,9 @@ void dialogue_render(SDL_Renderer *renderer);
 bool dialogue_is_active(void);
 void dialogue_cleanup(void);
 void dialogue_set_portrait(const char *path);
+
+// Font getters
+TTF_Font* dialogue_get_font(void);
+TTF_Font* dialogue_get_quest_font(void);   // ⭐ NEW
 
 #endif

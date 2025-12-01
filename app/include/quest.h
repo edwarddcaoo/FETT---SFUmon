@@ -1,6 +1,7 @@
 #ifndef QUEST_H
 #define QUEST_H
 
+<<<<<<< HEAD
 #include <stdbool.h>
 #include "catch.h" // For PetType enum
 
@@ -41,3 +42,34 @@ Quest *quest_check_just_completed(QuestManager *manager);
 void quest_get_progress_string(Quest *quest, char *buffer, int buffer_size);
 
 #endif
+=======
+typedef enum {
+    QUEST_BEAR_5,
+    QUEST_RACCOON_3,
+    QUEST_DEER_4,
+    QUEST_BIGDEER_2,
+    QUEST_COUNT
+} QuestID;
+
+void quest_start(QuestID q, int needed, const char* desc);
+void quest_progress(QuestID q);
+int  quest_is_complete(QuestID q);
+int  quest_is_active(QuestID q);
+
+void quest_complete_if_ready(QuestID q);
+
+// Multiple quests system
+int quest_get_active_list(QuestID out[], int max);
+
+// Info getters
+const char* quest_get_desc(QuestID q);
+int quest_get_needed(QuestID q);
+int quest_get_progress(QuestID q);
+int quest_any_active(void);
+
+int quest_is_in_progress(QuestID q);   // 0 < progress < needed
+int quest_is_ready_to_turn_in(QuestID q); // completed but still active
+
+
+#endif
+>>>>>>> 009f1c5 (Morteza stuff)

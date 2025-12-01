@@ -215,6 +215,13 @@ void map_init(Map *map, SDL_Renderer *renderer)
     sprite_load(&asb->npcs[0].sprite, renderer, "assets/sprites/npc/Soroush.png");
     strcpy(asb->npcs[0].portrait_path, "assets/dialogue/soroushDialogue.png");
 
+    // Morteza
+    asb->npcs[1].x = 22;     // change position if you want
+    asb->npcs[1].y = 8;
+    asb->npcs[1].caught = false;
+    strcpy(asb->npcs[1].name, "TA Morteza");
+    sprite_load(&asb->npcs[1].sprite, renderer, "assets/sprites/npc/Morteza.png");
+
     // ==============================
     // CLASSROOM
     // ==============================
