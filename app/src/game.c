@@ -39,7 +39,7 @@ void game_run(void)
 
     PetManager pets;
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
-    pet_spawn_initial(&pets, renderer);
+    pet_spawn_initial(&pets, renderer, &game_map);
 
     if (!music_init())
         fprintf(stderr, "Warning: Music initialization failed\n");
@@ -298,20 +298,8 @@ void game_run(void)
             if (p != NULL)
             {
                 audio_play_sound(SOUND_CATCH);
-
-                PetType caught_type = p->type;
-
                 pet_catch(&pets, p);
-                pet_check_respawn(&pets, renderer);
-
-                // QUEST PROGRESS UPDATE
-                switch (caught_type)
-                {
-                    case PET_BEAR:      quest_progress(QUEST_BEAR_5); break;
-                    case PET_RACCOON:   quest_progress(QUEST_RACCOON_3); break;
-                    case PET_DEER:      quest_progress(QUEST_DEER_4); break;
-                    case PET_BIGDEER:   quest_progress(QUEST_BIGDEER_2); break;
-                }
+                pet_check_respawn(&pets, renderer, &game_map);
             }
         }
 

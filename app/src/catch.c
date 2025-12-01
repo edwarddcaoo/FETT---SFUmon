@@ -241,6 +241,7 @@ void pet_catch(PetManager* manager, Pet* pet) {
             quest_progress(QUEST_BIGDEER_2);
             break;
 
+        case PET_TYPE_COUNT:
         default:
             break;
     }
