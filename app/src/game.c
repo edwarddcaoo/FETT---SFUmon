@@ -17,10 +17,65 @@
 #include <string.h>
 #include <rendering_ui.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
+void show_splash_screen(SDL_Renderer *renderer, const char *image_path, Uint32 duration_ms)
+{
+    // Load the splash image
+    SDL_Surface *surface = IMG_Load(image_path);
+    if (!surface)
+    {
+        fprintf(stderr, "Failed to load splash screen: %s\n", IMG_GetError());
+        return;
+    }
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!texture)
+    {
+        fprintf(stderr, "Failed to create splash texture: %s\n", SDL_GetError());
+        return;
+    }
+
+    // Show the splash screen
+    Uint32 start_time = SDL_GetTicks();
+    SDL_Event event;
+    bool skip = false;
+
+    while (SDL_GetTicks() - start_time < duration_ms && !skip)
+    {
+        // Allow skipping with any key
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT ||
+                event.type == SDL_KEYDOWN ||
+                event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                skip = true;
+            }
+        }
+
+        // Clear and render splash
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        // Stretch splash to fill screen
+        SDL_Rect dest = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+        SDL_RenderCopy(renderer, texture, NULL, &dest);
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(16);
+    }
+
+    SDL_DestroyTexture(texture);
+}
 
 void game_run(void)
 {
     SDL_Renderer *renderer = display_get_renderer();
+
+    show_splash_screen(renderer, "assets/sfumonTitle.png", 5000);
 
     dialogue_init(renderer);
 
@@ -73,7 +128,7 @@ void game_run(void)
     {
         Uint32 current_time = SDL_GetTicks();
 
-        if (!music_has_started && current_time > 12000)
+        if (!music_has_started && current_time > 5000)
         {
             music_start_delayed();
             music_has_started = true;
