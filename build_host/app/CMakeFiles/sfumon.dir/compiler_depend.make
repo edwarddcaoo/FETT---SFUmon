@@ -4,6 +4,9 @@
 app/CMakeFiles/sfumon.dir/src/catch.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/catch.c \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/catch.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/common.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/npc.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/sprite.h \
   /usr/include/SDL2/SDL.h \
   /usr/include/SDL2/SDL_assert.h \
@@ -492,6 +495,7 @@ app/CMakeFiles/sfumon.dir/src/game.c.o: /home/farhin/ensc351/work/FETT---SFUmon/
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/player.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering_ui.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/sound_effects.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/audio.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/button.h \
@@ -1916,6 +1920,7 @@ app/CMakeFiles/sfumon.dir/src/player.c.o: /home/farhin/ensc351/work/FETT---SFUmo
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/catch.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/common.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/input.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/npc.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/player.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/button.h \
@@ -2153,8 +2158,46 @@ app/CMakeFiles/sfumon.dir/src/player.c.o: /home/farhin/ensc351/work/FETT---SFUmo
   /usr/lib/gcc/x86_64-linux-gnu/14/include/xtestintrin.h
 
 app/CMakeFiles/sfumon.dir/src/quest.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c \
-  /home/farhin/ensc351/work/FETT---SFUmon/app/include/catch.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h \
+  /usr/include/features-time64.h \
+  /usr/include/features.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/include/stdarg.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h
+
+app/CMakeFiles/sfumon.dir/src/rendering.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/common.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/dialogue.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/input.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/npc.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/player.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/button.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/display.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/joystick.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/sprite.h \
   /usr/include/SDL2/SDL.h \
   /usr/include/SDL2/SDL_assert.h \
@@ -2202,6 +2245,7 @@ app/CMakeFiles/sfumon.dir/src/quest.c.o: /home/farhin/ensc351/work/FETT---SFUmon
   /usr/include/SDL2/SDL_thread.h \
   /usr/include/SDL2/SDL_timer.h \
   /usr/include/SDL2/SDL_touch.h \
+  /usr/include/SDL2/SDL_ttf.h \
   /usr/include/SDL2/SDL_version.h \
   /usr/include/SDL2/SDL_video.h \
   /usr/include/SDL2/begin_code.h \
@@ -2387,16 +2431,13 @@ app/CMakeFiles/sfumon.dir/src/quest.c.o: /home/farhin/ensc351/work/FETT---SFUmon
   /usr/lib/gcc/x86_64-linux-gnu/14/include/xsavesintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/include/xtestintrin.h
 
-app/CMakeFiles/sfumon.dir/src/rendering.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c \
+app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o: /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering_ui.c \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/catch.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/common.h \
-  /home/farhin/ensc351/work/FETT---SFUmon/app/include/input.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h \
   /home/farhin/ensc351/work/FETT---SFUmon/app/include/npc.h \
-  /home/farhin/ensc351/work/FETT---SFUmon/app/include/player.h \
-  /home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering.h \
-  /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/button.h \
+  /home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering_ui.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/display.h \
-  /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/joystick.h \
   /home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/sprite.h \
   /usr/include/SDL2/SDL.h \
   /usr/include/SDL2/SDL_assert.h \
@@ -2444,6 +2485,7 @@ app/CMakeFiles/sfumon.dir/src/rendering.c.o: /home/farhin/ensc351/work/FETT---SF
   /usr/include/SDL2/SDL_thread.h \
   /usr/include/SDL2/SDL_timer.h \
   /usr/include/SDL2/SDL_touch.h \
+  /usr/include/SDL2/SDL_ttf.h \
   /usr/include/SDL2/SDL_version.h \
   /usr/include/SDL2/SDL_video.h \
   /usr/include/SDL2/begin_code.h \
@@ -2727,8 +2769,11 @@ app/sfumon: hal/libhal.a \
   app/CMakeFiles/sfumon.dir/src/npc.c.o \
   app/CMakeFiles/sfumon.dir/src/player.c.o \
   app/CMakeFiles/sfumon.dir/src/quest.c.o \
-  app/CMakeFiles/sfumon.dir/src/rendering.c.o
+  app/CMakeFiles/sfumon.dir/src/rendering.c.o \
+  app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o
 
+
+app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o:
 
 app/CMakeFiles/sfumon.dir/src/quest.c.o:
 
@@ -2836,6 +2881,8 @@ app/CMakeFiles/sfumon.dir/src/rendering.c.o:
 
 hal/libhal.a:
 
+/home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering_ui.c:
+
 /home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c:
 
 /home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c:
@@ -2854,13 +2901,7 @@ hal/libhal.a:
 
 /home/farhin/ensc351/work/FETT---SFUmon/app/src/input.c:
 
-/lib/x86_64-linux-gnu/libpcre2-8.so.0:
-
-/lib/x86_64-linux-gnu/libgbm.so.1:
-
-/usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/display.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
@@ -2887,6 +2928,12 @@ hal/libhal.a:
 /usr/include/SDL2/SDL_video.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/lib/x86_64-linux-gnu/libpcre2-8.so.0:
+
+/lib/x86_64-linux-gnu/libgbm.so.1:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
@@ -3004,11 +3051,21 @@ hal/libhal.a:
 
 /usr/include/math.h:
 
-/lib/x86_64-linux-gnu/libXss.so.1:
+/lib/x86_64-linux-gnu/libexpat.so.1:
 
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+/usr/include/features.h:
 
-/usr/include/SDL2/SDL_messagebox.h:
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/include/ia32intrin.h:
+
+/home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c:
+
+/usr/include/SDL2/SDL_platform.h:
+
+/usr/include/stdint.h:
+
+/usr/include/endian.h:
 
 /lib/x86_64-linux-gnu/libwebp.so.7:
 
@@ -3032,19 +3089,15 @@ hal/libhal.a:
 
 /usr/include/SDL2/SDL_power.h:
 
-/usr/lib/x86_64-linux-gnu/crtn.o:
-
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/lib/aarch64-linux-gnu/libasound.so.2:
-
-/usr/include/SDL2/SDL_locale.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/14/include/rtmintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/tsxldtrkintrin.h:
+
+/usr/include/features-time64.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
+
+/usr/include/SDL2/SDL_gamecontroller.h:
 
 /usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h:
 
@@ -3078,11 +3131,25 @@ hal/libhal.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/usermsrintrin.h:
 
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/SDL2/SDL_filesystem.h:
+
+/lib/x86_64-linux-gnu/libtiff.so.6:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/include/avx512vp2intersectvlintrin.h:
+
 /usr/include/SDL2/SDL_guid.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/avx512vbmivlintrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/lib/aarch64-linux-gnu/libasound.so.2:
+
+/usr/include/SDL2/SDL_locale.h:
 
 /lib/x86_64-linux-gnu/libXext.so.6:
 
@@ -3102,6 +3169,16 @@ hal/libhal.a:
 
 /usr/include/SDL2/SDL_misc.h:
 
+/usr/include/SDL2/SDL_audio.h:
+
+/home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h:
+
+/lib/x86_64-linux-gnu/libXss.so.1:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/SDL2/SDL_messagebox.h:
+
 /usr/include/SDL2/SDL_endian.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/mm_malloc.h:
@@ -3116,29 +3193,15 @@ hal/libhal.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/avx2intrin.h:
 
-/usr/include/SDL2/SDL_audio.h:
-
-/home/farhin/ensc351/work/FETT---SFUmon/app/include/map.h:
-
 /usr/include/SDL2/SDL_metal.h:
 
 /usr/include/SDL2/SDL_thread.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+app/CMakeFiles/sfumon.dir/src/map.c.o:
 
-/usr/include/SDL2/SDL_filesystem.h:
-
-/lib/x86_64-linux-gnu/libtiff.so.6:
-
-/usr/lib/gcc/x86_64-linux-gnu/14/include/avx512vp2intersectvlintrin.h:
-
-/usr/include/SDL2/SDL_platform.h:
-
-/usr/include/SDL2/SDL_gamecontroller.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
+/home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h:
 
 /lib/x86_64-linux-gnu/libdbus-1.so.3:
 
@@ -3158,19 +3221,11 @@ hal/libhal.a:
 
 /usr/include/SDL2/SDL_scancode.h:
 
+/home/farhin/ensc351/work/FETT---SFUmon/app/include/rendering_ui.h:
+
 /usr/include/SDL2/close_code.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/avx512fp16vlintrin.h:
-
-/lib/x86_64-linux-gnu/libexpat.so.1:
-
-/usr/include/features.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/14/include/ia32intrin.h:
-
-/home/farhin/ensc351/work/FETT---SFUmon/app/src/collision.c:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
@@ -3179,10 +3234,6 @@ hal/libhal.a:
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/SDL2/SDL_timer.h:
-
-/usr/include/stdint.h:
-
-/usr/include/endian.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
@@ -3196,7 +3247,11 @@ hal/libhal.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/avxintrin.h:
 
-/usr/include/features-time64.h:
+/usr/lib/x86_64-linux-gnu/crtn.o:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -3248,9 +3303,9 @@ app/CMakeFiles/sfumon.dir/src/input.c.o:
 
 /usr/include/SDL2/SDL_ttf.h:
 
-/usr/include/ctype.h:
-
 /usr/include/SDL2/SDL_gesture.h:
+
+/usr/include/ctype.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/include/avx512bf16intrin.h:
 
@@ -3453,9 +3508,3 @@ app/CMakeFiles/sfumon.dir/src/dialogue.c.o:
 /home/farhin/ensc351/work/FETT---SFUmon/app/src/npc.c:
 
 /home/farhin/ensc351/work/FETT---SFUmon/app/include/player.h:
-
-app/CMakeFiles/sfumon.dir/src/map.c.o:
-
-/home/farhin/ensc351/work/FETT---SFUmon/app/include/quest.h:
-
-/home/farhin/ensc351/work/FETT---SFUmon/hal/include/hal/display.h:

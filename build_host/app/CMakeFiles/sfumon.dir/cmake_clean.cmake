@@ -24,6 +24,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/sfumon.dir/src/quest.c.o.d"
   "CMakeFiles/sfumon.dir/src/rendering.c.o"
   "CMakeFiles/sfumon.dir/src/rendering.c.o.d"
+  "CMakeFiles/sfumon.dir/src/rendering_ui.c.o"
+  "CMakeFiles/sfumon.dir/src/rendering_ui.c.o.d"
   "sfumon"
   "sfumon.pdb"
 )

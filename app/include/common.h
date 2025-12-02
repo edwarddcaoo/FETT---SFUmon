@@ -14,7 +14,7 @@
 
 // Movement settings
 #define MOVE_DELAY 200
-#define ANIMATION_SPEED 8.0f
+#define ANIMATION_SPEED 16.0f
 
 // Colors (RGB)
 #define COLOR_BACKGROUND_R 50

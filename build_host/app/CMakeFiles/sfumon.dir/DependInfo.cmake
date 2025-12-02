@@ -20,6 +20,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/player.c" "app/CMakeFiles/sfumon.dir/src/player.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/player.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/quest.c" "app/CMakeFiles/sfumon.dir/src/quest.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/quest.c.o.d"
   "/home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering.c" "app/CMakeFiles/sfumon.dir/src/rendering.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/rendering.c.o.d"
+  "/home/farhin/ensc351/work/FETT---SFUmon/app/src/rendering_ui.c" "app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o" "gcc" "app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o.d"
   "" "app/sfumon" "gcc" "app/CMakeFiles/sfumon.dir/link.d"
   )
 

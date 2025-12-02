@@ -418,6 +418,30 @@ src/rendering.c.s:
 	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/rendering.c.s
 .PHONY : src/rendering.c.s
 
+src/rendering_ui.o: src/rendering_ui.c.o
+.PHONY : src/rendering_ui.o
+
+# target to build an object file
+src/rendering_ui.c.o:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/rendering_ui.c.o
+.PHONY : src/rendering_ui.c.o
+
+src/rendering_ui.i: src/rendering_ui.c.i
+.PHONY : src/rendering_ui.i
+
+# target to preprocess a source file
+src/rendering_ui.c.i:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/rendering_ui.c.i
+.PHONY : src/rendering_ui.c.i
+
+src/rendering_ui.s: src/rendering_ui.c.s
+.PHONY : src/rendering_ui.s
+
+# target to generate assembly for a file
+src/rendering_ui.c.s:
+	cd /home/farhin/ensc351/work/FETT---SFUmon/build_host && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/sfumon.dir/build.make app/CMakeFiles/sfumon.dir/src/rendering_ui.c.s
+.PHONY : src/rendering_ui.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -463,6 +487,9 @@ help:
 	@echo "... src/rendering.o"
 	@echo "... src/rendering.i"
 	@echo "... src/rendering.s"
+	@echo "... src/rendering_ui.o"
+	@echo "... src/rendering_ui.i"
+	@echo "... src/rendering_ui.s"
 .PHONY : help
 
 

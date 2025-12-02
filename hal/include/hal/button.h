@@ -1,17 +1,22 @@
 #ifndef BUTTON_H
 #define BUTTON_H
+
 #include <stdbool.h>
 
-// Initialize button GPIO
+// Initialize both buttons
 void button_initialize(void);
 
-// Check if button is currently pressed
-bool button_isPressed(void);
+// Catch/Interact button (line 13)
+bool button_catch_isPressed(void);
+bool button_catch_wasJustPressed(void);
 
-// Check if button was just pressed (edge detection)
+// Reset button (line 14)
+bool button_reset_isPressed(void);
+bool button_reset_wasJustPressed(void);
+
 bool button_wasJustPressed(void);
 
-// Cleanup GPIO resources
+// Cleanup
 void button_cleanup(void);
 
 #endif

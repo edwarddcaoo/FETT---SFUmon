@@ -31,9 +31,10 @@ void game_run(void)
 
     audio_load_sound("assets/sounds/catch.wav", SOUND_CATCH);
 
-    if (TTF_Init() == -1) {
+    if (TTF_Init() == -1)
+    {
         fprintf(stderr, "Warning: Failed to initialize SDL_ttf: %s\n", TTF_GetError());
-    }   
+    }
 
     // ------------------------------------------
     // MAP + PLAYER INITIALIZATION
@@ -50,7 +51,8 @@ void game_run(void)
     pet_manager_init(&pets, renderer, 3, 3, 2, 2);
     pet_spawn_initial(&pets, renderer, &game_map);
 
-    if (!rendering_ui_init()) {
+    if (!rendering_ui_init())
+    {
         fprintf(stderr, "Warning: Failed to initialize UI rendering\n");
     }
 
@@ -59,9 +61,14 @@ void game_run(void)
 
     Uint32 last_move_time = 0;
     bool space_was_pressed = false;
+    bool interact_was_pressed = false;
+    bool reset_was_pressed = false;
     bool running = true;
     SDL_Event event;
 
+    // ==========================================
+    // MAIN GAME LOOP
+    // ==========================================
     while (running)
     {
         Uint32 current_time = SDL_GetTicks();
@@ -72,225 +79,226 @@ void game_run(void)
             music_has_started = true;
         }
 
+        // ------------------------------------------
+        // EVENT POLLING (SDL events only)
+        // ------------------------------------------
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
                 running = false;
-            
-            if (event.type == SDL_MOUSEBUTTONDOWN) {
-                if (event.button.button == SDL_BUTTON_LEFT) {
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+                running = false;
+
+            if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (event.button.button == SDL_BUTTON_LEFT)
+                {
                     int mouse_x = event.button.x;
                     int mouse_y = event.button.y;
-        
-                    if (rendering_ui_check_reset_click(mouse_x, mouse_y)) {
+
+                    if (rendering_ui_check_reset_click(mouse_x, mouse_y))
+                    {
                         rendering_ui_reset_catches(&pets);
                     }
                 }
             }
-            if (event.type == SDL_KEYDOWN)
+        }
+        // END OF EVENT POLLING
+
+        // Poll input state
+        input_poll_once_per_frame();
+
+        Room *current_room = map_get_current_room(&game_map);
+
+        if (music_has_started)
+            music_update(current_room, player.grid_x, player.grid_y);
+
+        // ------------------------------------------
+        // DIALOGUE HANDLING (T key on host, button on target)
+        // ------------------------------------------
+        if (input_is_interact_pressed(&interact_was_pressed))
+        {
+            // If dialogue is active, close it
+            if (dialogue_is_active())
             {
-                SDL_Keycode key = event.key.keysym.sym;
-
-                if (dialogue_is_active())
+                dialogue_handle_key(SDLK_t); // Close dialogue
+            }
+            else
+            {
+                // Try to talk to nearby NPC
+                for (int i = 0; i < current_room->npc_count; i++)
                 {
-                    dialogue_handle_key(key);
-                    continue;
-                }
+                    NPC *npc = &current_room->npcs[i];
 
-                if (key == SDLK_ESCAPE)
-                    running = false;
+                    bool touching =
+                        (player.grid_x == npc->x && player.grid_y == npc->y - 1) ||
+                        (player.grid_x == npc->x && player.grid_y == npc->y + 1) ||
+                        (player.grid_x == npc->x - 1 && player.grid_y == npc->y) ||
+                        (player.grid_x == npc->x + 1 && player.grid_y == npc->y);
 
-                //-------------------------------------------
-                // TALK TO NPC (T key)
-                //-------------------------------------------
-                if (key == SDLK_t)
-                {
-                    Room *room = map_get_current_room(&game_map);
+                    if (!touching)
+                        continue;
 
-                    for (int i = 0; i < room->npc_count; i++)
+                    //-------------------------------
+                    // NAVID
+                    //-------------------------------
+                    if (strcmp(npc->name, "TA Navid") == 0)
                     {
-                        NPC *npc = &room->npcs[i];
+                        QuestID q = QUEST_BEAR_5;
 
-                        bool touching =
-                            (player.grid_x == npc->x && player.grid_y == npc->y - 1) ||
-                            (player.grid_x == npc->x && player.grid_y == npc->y + 1) ||
-                            (player.grid_x == npc->x - 1 && player.grid_y == npc->y) ||
-                            (player.grid_x == npc->x + 1 && player.grid_y == npc->y);
-
-                        if (!touching)
-                            continue;
-
-                        //-------------------------------
-                        // NAVID
-                        //-------------------------------
-                        if (strcmp(npc->name, "TA Navid") == 0)
+                        if (quest_is_ready_to_turn_in(q))
                         {
-                            QuestID q = QUEST_BEAR_5;
+                            dialogue_set_portrait("assets/dialogue/navidDialogue.png");
+                            dialogue_start("Thank you! Those bears were terrifying.");
+                            quest_complete_if_ready(q);
+                            break;
+                        }
 
-                            if (quest_is_ready_to_turn_in(q))
-                            {
-                                dialogue_set_portrait("assets/dialogue/navidDialogue.png");
-                                dialogue_start("Thank you! Those bears were terrifying.");
-                                quest_complete_if_ready(q);
-                                break;
-                            }
-
-                            if (quest_is_in_progress(q))
-                            {
-                                char msg[128];
-                                snprintf(msg, sizeof(msg),
-                                    "Still working on those bears?\n(%d/%d)",
-                                    quest_get_progress(q),
-                                    quest_get_needed(q));
-
-                                dialogue_set_portrait("assets/dialogue/navidDialogue.png");
-                                dialogue_start(msg);
-                                break;
-                            }
+                        if (quest_is_in_progress(q))
+                        {
+                            char msg[128];
+                            snprintf(msg, sizeof(msg),
+                                     "Still working on those bears?\n(%d/%d)",
+                                     quest_get_progress(q),
+                                     quest_get_needed(q));
 
                             dialogue_set_portrait("assets/dialogue/navidDialogue.png");
-                            dialogue_start(
-                                "The bears keep attacking me!! Please help me get rid of some..\n"
-                                "Quest Started: Catch 5 Bears"
-                            );
-
-                            quest_start(q, 5, "Catch 5 Bears and report back to Navid");
+                            dialogue_start(msg);
                             break;
                         }
 
-                        //-------------------------------
-                        // SOROUSH
-                        //-------------------------------
-                        if (strcmp(npc->name, "TA Soroush") == 0)
+                        dialogue_set_portrait("assets/dialogue/navidDialogue.png");
+                        dialogue_start(
+                            "The bears keep attacking me!! Please help me get rid of some..\n"
+                            "Quest Started: Catch 5 Bears");
+
+                        quest_start(q, 5, "Catch 5 Bears and report back to Navid");
+                        break;
+                    }
+
+                    //-------------------------------
+                    // SOROUSH
+                    //-------------------------------
+                    if (strcmp(npc->name, "TA Soroush") == 0)
+                    {
+                        QuestID q = QUEST_RACCOON_3;
+
+                        if (quest_is_ready_to_turn_in(q))
                         {
-                            QuestID q = QUEST_RACCOON_3;
+                            dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
+                            dialogue_start("Thanks! I can finally eat my lunches in peace...");
+                            quest_complete_if_ready(q);
+                            break;
+                        }
 
-                            if (quest_is_ready_to_turn_in(q))
-                            {
-                                dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
-                                dialogue_start("Thanks! I can finally eat my lunches in peace...");
-                                quest_complete_if_ready(q);
-                                break;
-                            }
-
-                            if (quest_is_in_progress(q))
-                            {
-                                char msg[128];
-                                snprintf(msg, sizeof(msg),
-                                    "Hey! Haven't caught those rascals yet?\n(%d/%d)",
-                                    quest_get_progress(q),
-                                    quest_get_needed(q));
-
-                                dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
-                                dialogue_start(msg);
-                                break;
-                            }
+                        if (quest_is_in_progress(q))
+                        {
+                            char msg[128];
+                            snprintf(msg, sizeof(msg),
+                                     "Hey! Haven't caught those rascals yet?\n(%d/%d)",
+                                     quest_get_progress(q),
+                                     quest_get_needed(q));
 
                             dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
-                            dialogue_start(
-                                "My lunch keeps going missing... I think I know who.\n"
-                                "Quest Started: Catch 3 Raccoons"
-                            );
-
-                            quest_start(q, 3, "Catch 3 Raccoons and report back to Soroush");
+                            dialogue_start(msg);
                             break;
                         }
 
-                        //-------------------------------
-                        // MATTHEW
-                        //-------------------------------
-                        if (strcmp(npc->name, "Professor Matthew") == 0)
+                        dialogue_set_portrait("assets/dialogue/soroushDialogue.png");
+                        dialogue_start(
+                            "My lunch keeps going missing... I think I know who.\n"
+                            "Quest Started: Catch 3 Raccoons");
+
+                        quest_start(q, 3, "Catch 3 Raccoons and report back to Soroush");
+                        break;
+                    }
+
+                    //-------------------------------
+                    // MATTHEW
+                    //-------------------------------
+                    if (strcmp(npc->name, "Professor Matthew") == 0)
+                    {
+                        QuestID q = QUEST_DEER_4;
+
+                        if (quest_is_ready_to_turn_in(q))
                         {
-                            QuestID q = QUEST_DEER_4;
+                            dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
+                            dialogue_start("Great work! Those deer were messing up my lecture notes.");
+                            quest_complete_if_ready(q);
+                            break;
+                        }
 
-                            if (quest_is_ready_to_turn_in(q))
-                            {
-                                dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
-                                dialogue_start("Great work! Those deer were messing up my lecture notes.");
-                                quest_complete_if_ready(q);
-                                break;
-                            }
-
-                            if (quest_is_in_progress(q))
-                            {
-                                char msg[128];
-                                snprintf(msg, sizeof(msg),
-                                    "Back already? Still need those deer gone!\n(%d/%d)",
-                                    quest_get_progress(q),
-                                    quest_get_needed(q));
-
-                                dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
-                                dialogue_start(msg);
-                                break;
-                            }
+                        if (quest_is_in_progress(q))
+                        {
+                            char msg[128];
+                            snprintf(msg, sizeof(msg),
+                                     "Back already? Still need those deer gone!\n(%d/%d)",
+                                     quest_get_progress(q),
+                                     quest_get_needed(q));
 
                             dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
-                            dialogue_start(
-                                "Hey why are you out of class?? Nevermind.. I need some small deer.\n"
-                                "Quest Started: Catch 4 Small Deer"
-                            );
-
-                            quest_start(q, 4, "Catch 4 Deer and report back to Matthew");
+                            dialogue_start(msg);
                             break;
                         }
 
-                        //-------------------------------
-                        // MORTEZA
-                        //-------------------------------
-                        if (strcmp(npc->name, "TA Morteza") == 0)
+                        dialogue_set_portrait("assets/dialogue/matthewDialogue.png");
+                        dialogue_start(
+                            "Hey why are you out of class?? Nevermind.. I need some small deer.\n"
+                            "Quest Started: Catch 4 Small Deer");
+
+                        quest_start(q, 4, "Catch 4 Deer and report back to Matthew");
+                        break;
+                    }
+
+                    //-------------------------------
+                    // MORTEZA
+                    //-------------------------------
+                    if (strcmp(npc->name, "TA Morteza") == 0)
+                    {
+                        QuestID q = QUEST_BIGDEER_2;
+
+                        if (quest_is_ready_to_turn_in(q))
                         {
-                            QuestID q = QUEST_BIGDEER_2;
+                            dialogue_set_portrait("assets/dialogue/mortezaDialogue.png");
+                            dialogue_start("Perfect! These giant deer were messing with my research.");
+                            quest_complete_if_ready(q);
+                            break;
+                        }
 
-                            if (quest_is_ready_to_turn_in(q))
-                            {
-                                dialogue_set_portrait("assets/dialogue/mortezaDialogue.png");
-                                dialogue_start("Perfect! These giant deer were messing with my research.");
-                                quest_complete_if_ready(q);
-                                break;
-                            }
-
-                            if (quest_is_in_progress(q))
-                            {
-                                char msg[128];
-                                snprintf(msg, sizeof(msg),
-                                    "Still hunting those big deer?\n(%d/%d)",
-                                    quest_get_progress(q),
-                                    quest_get_needed(q));
-
-                                dialogue_set_portrait("assets/dialogue/mortezaDialogue.png");
-                                dialogue_start(msg);
-                                break;
-                            }
+                        if (quest_is_in_progress(q))
+                        {
+                            char msg[128];
+                            snprintf(msg, sizeof(msg),
+                                     "Still hunting those big deer?\n(%d/%d)",
+                                     quest_get_progress(q),
+                                     quest_get_needed(q));
 
                             dialogue_set_portrait("assets/dialogue/mortezaDialogue.png");
-                            dialogue_start(
-                                "Hey! It's hard to research with all these huge deer running around!\n"
-                                "Quest Started: Catch 2 Big Deer"
-                            );
-
-                            quest_start(q, 2, "Catch 2 Big Deer and report back to Morteza");
+                            dialogue_start(msg);
                             break;
                         }
+
+                        dialogue_set_portrait("assets/dialogue/mortezaDialogue.png");
+                        dialogue_start(
+                            "Hey! It's hard to research with all these huge deer running around!\n"
+                            "Quest Started: Catch 2 Big Deer");
+
+                        quest_start(q, 2, "Catch 2 Big Deer and report back to Morteza");
+                        break;
                     }
                 }
             }
         }
 
-        Room *current_room = map_get_current_room(&game_map);
-
-        if (music_has_started)
-            music_update(current_room,
-                         player.grid_x,
-                         player.grid_y);
-
-        //----------------------------------------
+        // ------------------------------------------
         // DIALOGUE FREEZE MODE
-        //----------------------------------------
+        // ------------------------------------------
         if (dialogue_is_active())
         {
             dialogue_update_typewriter();
 
-            display_clear(0,0,0);
+            display_clear(0, 0, 0);
             map_render_background(&game_map, renderer);
 
             rendering_draw_doors(current_room->doors, current_room->door_count);
@@ -309,9 +317,18 @@ void game_run(void)
             continue;
         }
 
-        //----------------------------------------
-        // CATCHING PETS
-        //----------------------------------------
+        // ------------------------------------------
+        // RESET BUTTON CHECK (hardware button on target)
+        // ------------------------------------------
+        if (input_is_reset_pressed(&reset_was_pressed))
+        {
+            printf("Reset button pressed!\n");
+            rendering_ui_reset_catches(&pets);
+        }
+
+        // ------------------------------------------
+        // PET CATCHING (SPACE on host, button on target)
+        // ------------------------------------------
         if (input_is_catch_pressed(&space_was_pressed))
         {
             Pet *p = pet_check_adjacent(&pets,
@@ -322,15 +339,15 @@ void game_run(void)
             if (p != NULL)
             {
                 audio_play_sound(SOUND_CATCH);
-                rendering_ui_increment_catch(p->type);  // <-- ADD THIS LINE
+                rendering_ui_increment_catch(p->type);
                 pet_catch(&pets, p);
                 pet_check_respawn(&pets, renderer, &game_map);
             }
         }
 
-        //----------------------------------------
-        // MOVEMENT
-        //----------------------------------------
+        // ------------------------------------------
+        // PLAYER MOVEMENT
+        // ------------------------------------------
         InputDirection dir = input_get_direction();
         player_handle_movement(&player, dir,
                                current_room->obstacles,
@@ -343,14 +360,14 @@ void game_run(void)
 
         player_update_animation(&player);
 
-        //----------------------------------------
+        // ------------------------------------------
         // ROOM TRANSITION
-        //----------------------------------------
-        if (!player.is_moving)
+        // ------------------------------------------
+        if (!player.is_moving && !player.just_teleported)
         {
             Door *door = map_check_door_collision(&game_map,
-                                                  player.grid_x,
-                                                  player.grid_y);
+                                                  player_get_grid_x(&player),
+                                                  player_get_grid_y(&player));
 
             if (door)
             {
@@ -366,13 +383,35 @@ void game_run(void)
                 player.target_grid_y = new_y;
                 player.render_x = new_x * TILE_SIZE;
                 player.render_y = new_y * TILE_SIZE;
+                player.is_moving = false;
+
+                // Prevent infinite re-triggering
+                player.just_teleported = true;
+
+                current_room = map_get_current_room(&game_map);
+                music_change_room(current_room->music_path);
             }
         }
 
-        //----------------------------------------
-        // RENDER FRAME
-        //----------------------------------------
-        display_clear(0,0,0);
+        // ------------------------------------------
+        // RESET TELEPORT LOCK when leaving the door
+        // ------------------------------------------
+        if (player.just_teleported)
+        {
+            // If not standing on any door anymore, unlock teleport
+            if (map_check_door_collision(&game_map,
+                                         player_get_grid_x(&player),
+                                         player_get_grid_y(&player)) == NULL)
+            {
+                player.just_teleported = false;
+            }
+        }
+
+        // ------------------------------------------
+        // NORMAL FRAME RENDERING
+        // ------------------------------------------
+        display_clear(0, 0, 0);
+
         map_render_background(&game_map, renderer);
 
         rendering_draw_doors(current_room->doors, current_room->door_count);
@@ -389,11 +428,12 @@ void game_run(void)
 
         display_present();
         SDL_Delay(FRAME_DELAY);
-    }
 
-    //----------------------------------------
+    } // END OF WHILE (running)
+
+    // ------------------------------------------
     // CLEANUP
-    //----------------------------------------
+    // ------------------------------------------
     pet_manager_cleanup(&pets);
     rendering_ui_cleanup();
     TTF_Quit();
@@ -403,4 +443,6 @@ void game_run(void)
     audio_cleanup();
     map_cleanup(&game_map);
     player_cleanup(&player);
+
+    printf("\n=== Game Over! ===\n");
 }

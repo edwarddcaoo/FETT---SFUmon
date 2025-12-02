@@ -65,7 +65,7 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
 
         // Table 2
         for (int x = 17; x <= 19; x++)
-            for (int y = 3; y <= 4; y++)
+            for (int y = 2; y <= 3; y++)
                 obstacles[y][x] = 1;
 
         // Table 3
@@ -79,9 +79,11 @@ static void init_room_obstacles(int obstacles[GRID_HEIGHT][GRID_WIDTH], RoomID r
                 obstacles[y][x] = 1;
 
         // White couch
-        for (int x = 13; x <= 16; x++)
-            for (int y = 4; y <= 6; y++)
+        for (int x = 13; x <= 15; x++)
+            for (int y = 5; y <= 6; y++)
                 obstacles[y][x] = 1;
+        for (int x = 13; x <= 15; x++)
+            obstacles[4][x] = 1;
 
         // Middle couch
         for (int x = 13; x <= 15; x++)
@@ -216,7 +218,7 @@ void map_init(Map *map, SDL_Renderer *renderer)
     strcpy(asb->npcs[0].portrait_path, "assets/dialogue/soroushDialogue.png");
 
     // Morteza
-    asb->npcs[1].x = 22;     // change position if you want
+    asb->npcs[1].x = 22; // change position if you want
     asb->npcs[1].y = 8;
     asb->npcs[1].caught = false;
     strcpy(asb->npcs[1].name, "TA Morteza");

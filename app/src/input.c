@@ -149,6 +149,23 @@ bool input_is_interact_pressed(bool *last_state)
     }
 }
 
+bool input_is_reset_pressed(bool *last_state)
+{
+    (void)last_state;
+
+    if (use_button)
+    {
+        // Use hardware reset button
+        return button_reset_wasJustPressed();
+    }
+    else
+    {
+        // On host, this is handled by mouse click, so always return false
+        // (Mouse clicks are handled in the event loop)
+        return false;
+    }
+}
+
 void input_cleanup(void)
 {
     if (use_joystick)

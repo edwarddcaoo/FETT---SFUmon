@@ -27,6 +27,8 @@ bool input_is_catch_pressed(bool *last_state);
 // Check if interact button is pressed
 bool input_is_interact_pressed(bool *last_state);
 
+bool input_is_reset_pressed(bool *last_state);
+
 // add prototypes
 void input_poll_once_per_frame(void);
 bool input_button_just_pressed_cached(void);
