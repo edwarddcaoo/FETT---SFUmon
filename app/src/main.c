@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // additional prints that pop up in the terminal to prompt the user
     printf("=== SFUmon Game ===\n");
     printf("Use ARROW KEYS or WASD to move\n");
     printf("Walk next to professors (they'll highlight) and press SPACE to catch\n");

@@ -10,9 +10,9 @@
 
 typedef enum
 {
-    ROOM_ASB = 0,       // Changed from BASEMENT
-    ROOM_CLASSROOM = 1, // Changed from MAIN
-    ROOM_PITLAB = 2,    // Changed from CLASSROOM
+    ROOM_ASB = 0,      
+    ROOM_CLASSROOM = 1, 
+    ROOM_PITLAB = 2,   
     ROOM_COUNT = 3
 } RoomID;
 
@@ -44,7 +44,7 @@ typedef struct
     NPC npcs[MAX_NPCS_PER_ROOM];
     int npc_count;
 
-    // NEW: Background texture
+    // background texture
     SDL_Texture *background_texture;
 } Room;
 

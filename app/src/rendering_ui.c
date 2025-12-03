@@ -43,7 +43,7 @@ bool rendering_ui_init(void) {
         total_catches[i] = 0;
     }
     
-    // Try to load a font - attempt multiple paths
+    // lpading fonts
     const char* font_paths[] = {
         "assets/fonts/Arial.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",

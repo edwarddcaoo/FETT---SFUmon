@@ -35,6 +35,7 @@ void player_init(Player *player, int start_x, int start_y, SDL_Renderer *rendere
     }
 }
 
+// ensures the player is moving into a valid cell
 void player_handle_movement(Player *player, InputDirection dir,
                             int obstacles[][GRID_WIDTH], void *npcs_ptr, int npc_count,
                             unsigned int current_time, unsigned int *last_move_time,
@@ -110,6 +111,7 @@ void player_handle_movement(Player *player, InputDirection dir,
     }
 }
 
+// updates the animation of the player walking
 void player_update_animation(Player *player)
 {
     if (player->is_moving)

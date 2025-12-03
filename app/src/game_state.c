@@ -11,6 +11,7 @@ static unsigned int calculate_checksum(const GameState* state) {
     return sum ^ 0xDEADBEEF;  // XOR with magic number
 }
 
+// initializes the game state counter
 bool game_state_init(GameState* state) {
     // Try to load existing save data
     if (game_state_load(state)) {
@@ -84,6 +85,7 @@ bool game_state_load(GameState* state) {
     return true;
 }
 
+// linked to the input button to reset catches to 0
 void game_state_reset(GameState* state) {
     printf("Game State: Resetting all catches to 0\n");
     

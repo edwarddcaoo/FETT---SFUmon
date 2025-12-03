@@ -13,6 +13,7 @@
 
 Dialogue g_dialogue = {0};
 
+// render text to the screen using the specific dialogue font
 static void render_text(SDL_Renderer *renderer, const char *text)
 {
     if (!g_dialogue.font)
@@ -20,11 +21,13 @@ static void render_text(SDL_Renderer *renderer, const char *text)
 
     SDL_Color red = {46, 18, 18, 255};
 
+    // create text surface
     SDL_Surface *surf = TTF_RenderUTF8_Blended_Wrapped(
         g_dialogue.font, text, red, MAX_LINE_WIDTH
     );
     if (!surf) return;
 
+    // convert surface to texture for rendering
     SDL_Texture *tex = SDL_CreateTextureFromSurface(renderer, surf);
 
     SDL_Rect dst = {TEXT_X, TEXT_Y, surf->w, surf->h};
@@ -34,6 +37,7 @@ static void render_text(SDL_Renderer *renderer, const char *text)
     SDL_DestroyTexture(tex);
 }
 
+// initializes the dialogue system
 void dialogue_init(SDL_Renderer *renderer)
 {
     g_dialogue.renderer = renderer;
@@ -46,7 +50,7 @@ void dialogue_init(SDL_Renderer *renderer)
     if (!g_dialogue.font)
         printf("Font load error: %s\n", TTF_GetError());
 
-    // ⭐ QUEST FONT (smaller UI font)
+    // quest font (smaller UI font)
     g_dialogue.quest_font = TTF_OpenFont(FONT_PATH, 55);   // <-- adjust size here
     if (!g_dialogue.quest_font)
         printf("Quest font load error: %s\n", TTF_GetError());
@@ -57,6 +61,7 @@ void dialogue_init(SDL_Renderer *renderer)
         printf("Failed to load initial PNG: %s\n", IMG_GetError());
 }
 
+// starts a new dialogue sequence with typewriter effect
 void dialogue_start(const char *text)
 {
     g_dialogue.active = true;
@@ -68,6 +73,7 @@ void dialogue_start(const char *text)
     g_dialogue.last_char_time = SDL_GetTicks();
 }
 
+// updates the typewriter effect for the dialogue
 void dialogue_update_typewriter(void)
 {
     if (!g_dialogue.active || g_dialogue.finished)
@@ -90,6 +96,8 @@ void dialogue_update_typewriter(void)
     }
 }
 
+
+// handles button input for dialogue interaction
 void dialogue_handle_key(SDL_Keycode key)
 {
     if (!g_dialogue.active)
@@ -109,6 +117,7 @@ void dialogue_handle_key(SDL_Keycode key)
     }
 }
 
+// renders the dialogue
 void dialogue_render(SDL_Renderer *renderer)
 {
     if (!g_dialogue.active)
@@ -118,11 +127,13 @@ void dialogue_render(SDL_Renderer *renderer)
     render_text(renderer, g_dialogue.shown_text);
 }
 
+// checks if the dialogue is active
 bool dialogue_is_active(void)
 {
     return g_dialogue.active;
 }
 
+// cleans up all dialogue resources
 void dialogue_cleanup(void)
 {
     if (g_dialogue.texture)
@@ -137,6 +148,7 @@ void dialogue_cleanup(void)
     TTF_Quit();
 }
 
+// changes the background image in the dialogue box
 void dialogue_set_portrait(const char *path)
 {
     if (g_dialogue.texture)

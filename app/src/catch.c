@@ -167,7 +167,7 @@ void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer, Map* map) {
             }
             
             if (pet) {
-                // Respawn at random location (avoiding obstacles)
+                // Respawn at random location across the three maps (avoiding obstacles)
                 pet->room_id = rand() % 3;
                 
                 if (!find_random_spawn_position(map, pet->room_id, &pet->x, &pet->y)) {
@@ -185,6 +185,7 @@ void pet_check_respawn(PetManager* manager, SDL_Renderer* renderer, Map* map) {
     }
 }
 
+// checks if the player is adjacent to the pet when catching
 Pet* pet_check_adjacent(PetManager* manager, int player_x, int player_y, int room_id) {
     for (int i = 0; i < manager->count; i++) {
         Pet* pet = &manager->pets[i];
@@ -202,6 +203,7 @@ Pet* pet_check_adjacent(PetManager* manager, int player_x, int player_y, int roo
     return NULL;
 }
 
+// enables the pets to count as a collision
 bool pet_blocks_movement(PetManager* manager, int x, int y, int room_id) {
     for (int i = 0; i < manager->count; i++) {
         Pet* pet = &manager->pets[i];
@@ -213,6 +215,7 @@ bool pet_blocks_movement(PetManager* manager, int x, int y, int room_id) {
     return false;
 }
 
+// pet catching mechanism
 void pet_catch(PetManager* manager, Pet* pet) {
     if (pet->caught) {
         return;
@@ -222,7 +225,7 @@ void pet_catch(PetManager* manager, Pet* pet) {
     manager->total_caught++;
 
     // QUEST INTEGRATION
-// QUEST PROGRESS
+    // QUEST PROGRESS
     switch (pet->type)
     {
         case PET_BEAR:

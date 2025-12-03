@@ -33,6 +33,8 @@ typedef struct
 
 } Player;
 
+
+// function initializations
 void player_init(Player *player, int start_x, int start_y, SDL_Renderer *renderer);
 
 void player_handle_movement(Player *player, InputDirection dir,

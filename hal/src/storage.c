@@ -4,6 +4,7 @@
 
 static char base_path[256] = "./";
 
+// initializes the storage system
 bool storage_init(const char* path) {
     if (path != NULL) {
         strncpy(base_path, path, sizeof(base_path) - 1);
@@ -13,10 +14,12 @@ bool storage_init(const char* path) {
     return true;
 }
 
+// cleans up storage resources
 void storage_cleanup(void) {
     printf("Storage: Cleanup\n");
 }
 
+// writes binary data to the file
 bool storage_write_file(const char* filename, const void* data, size_t size) {
     char full_path[512];
     snprintf(full_path, sizeof(full_path), "%s/%s", base_path, filename);
@@ -39,6 +42,7 @@ bool storage_write_file(const char* filename, const void* data, size_t size) {
     return true;
 }
 
+// reads the binary data from the file
 bool storage_read_file(const char* filename, void* buffer, size_t max_size, size_t* bytes_read) {
     char full_path[512];
     snprintf(full_path, sizeof(full_path), "%s/%s", base_path, filename);
@@ -60,6 +64,7 @@ bool storage_read_file(const char* filename, void* buffer, size_t max_size, size
     return true;
 }
 
+// checks if a file exists
 bool storage_file_exists(const char* filename) {
     char full_path[512];
     snprintf(full_path, sizeof(full_path), "%s/%s", base_path, filename);
@@ -72,6 +77,7 @@ bool storage_file_exists(const char* filename) {
     return false;
 }
 
+// deletes a file from storage
 bool storage_delete_file(const char* filename) {
     char full_path[512];
     snprintf(full_path, sizeof(full_path), "%s/%s", base_path, filename);
@@ -85,6 +91,7 @@ bool storage_delete_file(const char* filename) {
     return false;
 }
 
+// gets the size of a file in bytes
 long storage_get_file_size(const char* filename) {
     char full_path[512];
     snprintf(full_path, sizeof(full_path), "%s/%s", base_path, filename);

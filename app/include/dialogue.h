@@ -2,7 +2,7 @@
 #define DIALOGUE_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>   // ⭐ REQUIRED for TTF_Font
+#include <SDL2/SDL_ttf.h>   // required for TTF_Font
 #include <stdbool.h>
 
 typedef struct
@@ -19,11 +19,12 @@ typedef struct
     SDL_Renderer *renderer;
 
     TTF_Font *font;        // dialogue font
-    TTF_Font *quest_font;  // ⭐ NEW — quest UI font
+    TTF_Font *quest_font;  // quest UI font
 } Dialogue;
 
 extern Dialogue g_dialogue;
 
+// function initializations
 void dialogue_init(SDL_Renderer *renderer);
 void dialogue_start(const char *text);
 void dialogue_update_typewriter(void);
@@ -35,6 +36,6 @@ void dialogue_set_portrait(const char *path);
 
 // Font getters
 TTF_Font* dialogue_get_font(void);
-TTF_Font* dialogue_get_quest_font(void);   // ⭐ NEW
+TTF_Font* dialogue_get_quest_font(void);   
 
 #endif

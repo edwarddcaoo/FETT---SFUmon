@@ -8,6 +8,7 @@ static char current_music_path[128] = "";
 static bool was_near_professor = false;
 
 // Helper function to check if player is near Professor Matthew
+// special music will play when near Professor
 static bool is_near_professor_matthew(Room* room, int player_x, int player_y) {
     for (int i = 0; i < room->npc_count; i++) {
         if (strcmp(room->npcs[i].name, "Professor Matthew") == 0 && !room->npcs[i].caught) {
@@ -33,7 +34,7 @@ bool music_init(void) {
     return true;
 }
 
-// Add this new function
+// used to delay the music start to allow music to fully load inf irst
 bool music_start_delayed(void) {
     printf("Music: Loading main hall music...\n");
     
@@ -49,6 +50,7 @@ bool music_start_delayed(void) {
     return true;
 }
 
+// updates the music depending on what room the player is in / if near professor
 void music_update(Room* current_room, int player_x, int player_y) {
     // Check if near Professor Matthew for encounter music
     bool near_professor = is_near_professor_matthew(current_room, player_x, player_y);
@@ -73,6 +75,7 @@ void music_update(Room* current_room, int player_x, int player_y) {
     }
 }
 
+// changes the music if needed
 void music_change_room(const char* new_music_path) {
     // Only change if different from current
     if (strcmp(current_music_path, new_music_path) != 0) {

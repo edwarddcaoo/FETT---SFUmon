@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 
+// loads the an image and creates the sprite
 bool sprite_load(Sprite* sprite, SDL_Renderer* renderer, const char* filename) {
     if (!sprite || !renderer || !filename) {
         fprintf(stderr, "Sprite: Invalid parameters\n");
@@ -34,6 +35,7 @@ bool sprite_load(Sprite* sprite, SDL_Renderer* renderer, const char* filename) {
     return true;
 }
 
+// renders the sprite at a specific position
 void sprite_render(Sprite* sprite, SDL_Renderer* renderer, int x, int y) {
     if (!sprite || !sprite->texture || !renderer) {
         return;
@@ -49,6 +51,7 @@ void sprite_render(Sprite* sprite, SDL_Renderer* renderer, int x, int y) {
     SDL_RenderCopy(renderer, sprite->texture, NULL, &dest);
 }
 
+// renders the sprite with custom dimensions at a specific position 
 void sprite_render_scaled(Sprite* sprite, SDL_Renderer* renderer, int x, int y, int w, int h) {
     if (!sprite || !sprite->texture || !renderer) {
         return;
@@ -64,6 +67,7 @@ void sprite_render_scaled(Sprite* sprite, SDL_Renderer* renderer, int x, int y, 
     SDL_RenderCopy(renderer, sprite->texture, NULL, &dest);
 }
 
+// renders a portion of the sprite for animation frames
 void sprite_render_clip(Sprite* sprite, SDL_Renderer* renderer, int x, int y, SDL_Rect* clip) {
     if (!sprite || !sprite->texture || !renderer) {
         return;
@@ -79,6 +83,7 @@ void sprite_render_clip(Sprite* sprite, SDL_Renderer* renderer, int x, int y, SD
     SDL_RenderCopy(renderer, sprite->texture, clip, &dest);
 }
 
+// frees sprite resources and resets sprite data
 void sprite_free(Sprite* sprite) {
     if (!sprite) {
         return;
